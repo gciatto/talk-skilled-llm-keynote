@@ -1,4 +1,8 @@
-# From Language to Agency
+# Opening and positioning
+
+---
+
+## From Language to Agency
 
 - LLMs are no longer only **conversational generators**
   - they interpret requests
@@ -34,7 +38,7 @@ Toolformer :contentReference[oaicite:2]{index=2}
 
 ---
 
-# Why this workshop?
+## Why this workshop?
 
 - SKILLED-LLMs is the right venue
   - language models
@@ -68,7 +72,7 @@ Neuro-symbolic LLM reasoning survey :contentReference[oaicite:4]{index=4}
 
 ---
 
-# Talk contract: notions, not a framework
+## Talk contract: notions, not a framework
 
 - This is not a system paper
   - no finished architecture
@@ -105,7 +109,11 @@ SKILLED-LLMs context pack :contentReference[oaicite:5]{index=5}
 
 ---
 
-# GenAI, foundation models, and LLMs
+# Vocabulary: putting everyone on the same page
+
+---
+
+## GenAI, foundation models, and LLMs
 
 - **Generative AI**
   - AI systems producing content
@@ -141,7 +149,7 @@ Generative Agents :contentReference[oaicite:3]{index=3}
 
 ---
 
-# LLMs as next-token predictors
+## LLMs as next-token predictors
 
 - Basic mechanism
   - input: textual context
@@ -174,7 +182,7 @@ GenAI slides, especially “Basic Operation of LLMs” :contentReference[oaicite
 
 ---
 
-# What is an agent?
+## What is an agent?
 
 - Classical AI view
   - an agent receives **percepts**
@@ -206,7 +214,7 @@ Gentle Introduction to Intelligent Agents :contentReference[oaicite:7]{index=7}
 
 ---
 
-# What do people mean by “agent”?
+## What do people mean by “agent”?
 
 - Classic AI
   - entity encapsulating intelligent behaviour
@@ -236,7 +244,7 @@ Agents, Agentic, Agent-Oriented slides :contentReference[oaicite:9]{index=9}
 
 ---
 
-# Goal and environment
+## Goal and environment
 
 - A **goal**
   - partial description of a desired world state
@@ -268,7 +276,7 @@ Gentle Introduction to Intelligent Agents :contentReference[oaicite:10]{index=10
 
 ---
 
-# Perception and actuation
+## Perception and actuation
 
 - **Perception**
   - gathering information from the environment
@@ -301,7 +309,7 @@ WebArena :contentReference[oaicite:12]{index=12}
 
 ---
 
-# Deliberation and control loop
+## Deliberation and control loop
 
 - A minimal control loop
   - sense
@@ -334,7 +342,7 @@ ReAct :contentReference[oaicite:14]{index=14}
 
 ---
 
-# Representation enters early
+## Representation enters early
 
 - Raw percepts are rarely enough
   - numbers
@@ -372,7 +380,7 @@ SKILLED-LLMs context pack :contentReference[oaicite:16]{index=16}
 
 ---
 
-# Intelligence vs. autonomy vs. agency
+## Intelligence vs. autonomy vs. agency
 
 - **Intelligence**
   - selecting and applying cognitive capabilities
@@ -404,7 +412,7 @@ Gentle Introduction to Intelligent Agents :contentReference[oaicite:18]{index=18
 
 ---
 
-# Autonomy: executive vs. motivational
+## Autonomy: executive vs. motivational
 
 - **Executive autonomy**
   - choosing how to act
@@ -435,7 +443,7 @@ Intelligence vs Autonomy vs Agency notes :contentReference[oaicite:20]{index=20}
 
 ---
 
-# Corner cases clarify the dimensions
+## Corner cases clarify the dimensions
 
 - Intelligence without autonomy or agency
   - theorem prover called by a human
@@ -467,7 +475,7 @@ Intelligence vs Autonomy vs Agency notes :contentReference[oaicite:21]{index=21}
 
 ---
 
-# LLMs vs. agents
+## LLMs vs. agents
 
 - Are LLMs agents?
   - not really
@@ -508,7 +516,7 @@ WebArena :contentReference[oaicite:24]{index=24}
 
 ---
 
-# What is an agent in agentic AI?
+## What is an agent in agentic AI?
 
 - A system that uses a model to
   - interpret context
@@ -548,7 +556,7 @@ WebArena :contentReference[oaicite:27]{index=27}
 
 ---
 
-# Artifacts, tools, function calls
+## Artifacts, tools, function calls
 
 - A **tool**
   - external capability
@@ -588,7 +596,7 @@ LLM-as-a-Service slides :contentReference[oaicite:30]{index=30}
 
 ---
 
-# Tools before LLMs: artifacts
+## Tools before LLMs: artifacts
 
 - MAS research already modelled tools
   - not merely as functions
@@ -622,7 +630,7 @@ Ricci and Ciortea on tools in Agentic AI :contentReference[oaicite:32]{index=32}
 
 ---
 
-# Tool engineering then and now
+## Tool engineering then and now
 
 - Classical MAS
   - programmer designed adaptation code
@@ -656,7 +664,7 @@ LLM-as-a-Service slides :contentReference[oaicite:35]{index=35}
 
 ---
 
-# Memory is controlled state across time
+## Memory is controlled state across time
 
 - Memory is not “more context”
   - it is persistent managed state
@@ -696,7 +704,7 @@ Reflexion :contentReference[oaicite:38]{index=38}
 
 ---
 
-# Memory types
+## Memory types
 
 - **Context**
   - transient working material
@@ -728,7 +736,7 @@ Voyager :contentReference[oaicite:41]{index=41}
 
 ---
 
-# Governed memory
+## Governed memory
 
 - Provenance
   - where did this memory come from?
@@ -755,7 +763,7 @@ SKILLED-LLMs context pack :contentReference[oaicite:43]{index=43}
 
 ---
 
-# Memory mechanisms must be explicit
+## Memory mechanisms must be explicit
 
 - Retrieval
   - what is selected?
@@ -790,7 +798,7 @@ SKILLED-LLMs context pack :contentReference[oaicite:45]{index=45}
 
 ---
 
-# Planning
+## Planning
 
 - Classical planning asks for
   - initial state
@@ -825,7 +833,7 @@ Planning for Intelligent Agents slides :contentReference[oaicite:47]{index=47}
 
 ---
 
-# LLM “planning” is often different
+## LLM “planning” is often different
 
 - Inputs are usually underspecified
   - action set unknown
@@ -863,7 +871,7 @@ ReAct :contentReference[oaicite:50]{index=50}
 
 ---
 
-# Vocabulary takeaway
+## Vocabulary takeaway
 
 - Agents require more than models
   - goals
@@ -896,7 +904,7 @@ SKILLED-LLMs context pack :contentReference[oaicite:51]{index=51}
 
 ---
 
-# Natural language as an interface
+## Natural language as an interface
 
 - Common pattern
   - user writes an intent
@@ -931,7 +939,7 @@ SKILLED-LLMs context pack :contentReference[oaicite:1]{index=1}
 
 ---
 
-# Prompt engineering: basic criteria
+## Prompt engineering: basic criteria
 
 - **Clarity**
   - state the task directly
@@ -961,7 +969,7 @@ GenAI slides :contentReference[oaicite:2]{index=2}
 
 ---
 
-# Prompt pattern: few-shot
+## Prompt pattern: few-shot
 
 - Idea
   - provide examples of input-output behaviour
@@ -992,7 +1000,7 @@ GenAI slides :contentReference[oaicite:3]{index=3}
 
 ---
 
-# Prompt pattern: chain-of-thought
+## Prompt pattern: chain-of-thought
 
 - Idea
   - ask for intermediate reasoning steps
@@ -1022,7 +1030,7 @@ LLM-Modulo position paper :contentReference[oaicite:5]{index=5}
 
 ---
 
-# Prompt pattern: Tree-of-Thought
+## Prompt pattern: Tree-of-Thought
 
 - Idea
   - explore multiple reasoning paths
@@ -1055,7 +1063,7 @@ M11 taxonomy includes search and deliberate planning patterns :contentReference[
 
 ---
 
-# Prompt engineering as enveloping
+## Prompt engineering as enveloping
 
 - Prompting makes humans adapt
   - clearer intent
@@ -1088,7 +1096,7 @@ La quarta rivoluzione on technologies shaping environments and behaviours :conte
 
 ---
 
-# Enveloping
+## Enveloping
 
 - Floridi’s core idea
   - AI succeeds by changing environments
@@ -1122,7 +1130,7 @@ The Ethics of AI on AI-friendly infospheres and CAPTCHAs :contentReference[oaici
 
 ---
 
-# Natural language as the means for reasoning
+## Natural language as the means for reasoning
 
 - Natural language is not only the interface
   - it is also the working medium
@@ -1157,7 +1165,7 @@ GenAI slides on language and reasoning :contentReference[oaicite:13]{index=13}
 
 ---
 
-# Why natural language became so general
+## Why natural language became so general
 
 - It can express
   - objects
@@ -1192,7 +1200,7 @@ GenAI slides on language and reasoning :contentReference[oaicite:14]{index=14}
 
 ---
 
-# The agentic loop
+## The agentic loop
 
 - Single-pass LLM use
   - input → output
@@ -1221,7 +1229,7 @@ M11 canonical implementation pattern :contentReference[oaicite:16]{index=16}
 
 ---
 
-# Agentic loop: example
+## Agentic loop: example
 
 - User goal
   - “book a train to Lisbon after the workshop”
@@ -1254,7 +1262,7 @@ M11 on environmental feedback loop :contentReference[oaicite:17]{index=17}
 
 ---
 
-# ReAct: reasoning, action, observation
+## ReAct: reasoning, action, observation
 
 - ReAct makes the loop explicit
   - reasoning → action → observation
@@ -1287,7 +1295,7 @@ M11 on prompted tool use from planners to ReAct :contentReference[oaicite:19]{in
 
 ---
 
-# Toolformer: calls inside text
+## Toolformer: calls inside text
 
 - Toolformer changes the pattern
   - model emits structured API calls
@@ -1319,7 +1327,7 @@ Toolformer
 
 ---
 
-# Tool-use loop
+## Tool-use loop
 
 - Minimal pattern
   - reason
@@ -1356,7 +1364,7 @@ M11 on open problems in tool use :contentReference[oaicite:23]{index=23}
 
 ---
 
-# Agentic loop variants
+## Agentic loop variants
 
 - Memory-augmented agents
   - retrieve memory
@@ -1393,7 +1401,7 @@ M11 on multi-agent systems in Agentic AI :contentReference[oaicite:26]{index=26}
 
 ---
 
-# The common technical pattern
+## The common technical pattern
 
 - Natural language enters the system
   - intent
@@ -1427,3 +1435,9 @@ This is the section close. The common pattern is not “LLMs are agents.” The 
 Citations:
 SKILLED-LLMs context pack :contentReference[oaicite:27]{index=27}
 M11 canonical implementation pattern :contentReference[oaicite:28]{index=28}
+
+---
+
+# Reasoning: symbolic AI, LLMs, and the dual-process analogy
+
+---
