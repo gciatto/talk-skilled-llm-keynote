@@ -893,3 +893,537 @@ Use this as the section close. The vocabulary is not preparatory bureaucracy. It
 
 Citations:
 SKILLED-LLMs context pack :contentReference[oaicite:51]{index=51}
+
+---
+
+# Natural language as an interface
+
+- Common pattern
+  - user writes an intent
+  - model produces a response
+  - system interprets the response
+
+- Natural language is attractive
+  - low entry cost
+  - broad expressivity
+  - works with messy inputs
+  - works across domains
+
+- Prompt engineering
+  - craft the input
+  - shape model behaviour
+  - reduce ambiguity and failure
+
+- Good prompts specify
+  - task, context, constraints
+  - examples, format, success criteria
+
+- Hidden issue
+  - users adapt to the model
+  - not only the reverse
+
+Notes:
+Start from the mundane: prompt engineering is the dominant human-AI interface practice. Then make it less mundane: it is an adaptation practice. Humans learn to speak in ways that fit model limitations. They provide structure, constraints, examples, roles, formats, and success criteria because the model otherwise behaves too loosely.
+
+Citations:
+GenAI slides on language and reasoning :contentReference[oaicite:0]{index=0}
+SKILLED-LLMs context pack :contentReference[oaicite:1]{index=1}
+
+---
+
+# Prompt engineering: basic criteria
+
+- **Clarity**
+  - state the task directly
+  - avoid hidden assumptions
+
+- **Completeness**
+  - provide relevant context
+  - include missing constraints
+
+- **Structure**
+  - request an explicit format
+  - separate inputs from instructions
+
+- **Examples**
+  - show desired behaviour
+  - reduce interpretive freedom
+
+- **Checks**
+  - ask for caveats
+  - ask for failure conditions
+
+Notes:
+This slide is intentionally practical. It helps the audience recognise prompt engineering as informal specification. Every item corresponds to something formal methods and KR people already care about: unambiguous task description, constraints, examples, schemas, and validation. This prepares the later argument that prompts are weak specifications.
+
+Citations:
+GenAI slides :contentReference[oaicite:2]{index=2}
+
+---
+
+# Prompt pattern: few-shot
+
+- Idea
+  - provide examples of input-output behaviour
+
+- Example
+  - input: email complaint
+  - output: apology + proposed remedy
+
+- What it gives the model
+  - task framing
+  - style constraints
+  - implicit decision rule
+
+- What remains weak
+  - coverage
+  - edge cases
+  - conflicting examples
+  - hidden policy
+
+- Representation issue
+  - examples are not explicit rules
+
+Notes:
+Frame few-shot prompting as learning-by-demonstration at inference time. It works because examples constrain the model’s continuation space. But for governance, examples are insufficient: they do not specify the rule, exceptions, priority ordering, or normative justification. They are useful, but not auditable specifications.
+
+Citations:
+GenAI slides :contentReference[oaicite:3]{index=3}
+
+---
+
+# Prompt pattern: chain-of-thought
+
+- Idea
+  - ask for intermediate reasoning steps
+  - before the final answer
+
+- It can improve performance
+  - by externalising intermediate structure
+  - as natural-language scratchpad
+
+- It can improve inspectability
+  - sometimes
+  - but not guarantee correctness
+
+- Weakness
+  - the trace may be post-hoc
+  - plausible reasoning is not proof
+
+- Representation issue
+  - reasoning text is not a derivation
+
+Notes:
+Use the dual-system analogy lightly. Chain-of-thought makes the model spend tokens on intermediate structure. This can help, but the trace is still linguistic and model-generated. It should not be confused with a proof, a plan, a provenance graph, or a verified derivation.
+
+Citations:
+ReAct and related reasoning-action pattern :contentReference[oaicite:4]{index=4}
+LLM-Modulo position paper :contentReference[oaicite:5]{index=5}
+
+---
+
+# Prompt pattern: Tree-of-Thought
+
+- Idea
+  - explore multiple reasoning paths
+  - compare them
+  - backtrack when needed
+
+- It changes the computation
+  - from one continuation
+  - to search over continuations
+
+- It helps when tasks require
+  - decomposition
+  - exploration
+  - partial evaluation
+
+- Weakness
+  - search space is informal
+  - evaluation criteria may be vague
+
+- Representation issue
+  - branches need explicit state and scoring
+
+Notes:
+Tree-of-Thought is useful because it makes the underlying pattern more visible: reasoning becomes search. But the search nodes, transitions, scoring functions, and stopping rules are often expressed in natural language. For a symbolic AI audience, the obvious question is: what is the state space, and what is the evaluation function?
+
+Citations:
+Tree of Thoughts
+LLM-Modulo position paper :contentReference[oaicite:6]{index=6}
+M11 taxonomy includes search and deliberate planning patterns :contentReference[oaicite:7]{index=7}
+
+---
+
+# Prompt engineering as enveloping
+
+- Prompting makes humans adapt
+  - clearer intent
+  - more explicit context
+  - stricter formats
+  - fewer ambiguities
+
+- This is useful
+  - better interaction
+  - fewer failures
+  - lower integration cost
+
+- But it is also revealing
+  - the environment is reshaped
+  - around model limitations
+
+- Floridi’s term
+  - **enveloping**
+  - adapting the world to ICT capacities
+
+- Prompting is a small envelope
+  - around language-model behaviour
+
+Notes:
+This is the conceptual pivot. Prompt engineering is not just a user skill. It is a micro-form of environment design. We make the communicative environment more machine-friendly. The point is not that this is always bad. The point is that it must be recognised as adaptation, and later governed deliberately.
+
+Citations:
+La quarta rivoluzione on adapting the world to ICT capacities :contentReference[oaicite:8]{index=8}
+La quarta rivoluzione on technologies shaping environments and behaviours :contentReference[oaicite:9]{index=9}
+
+---
+
+# Enveloping
+
+- Floridi’s core idea
+  - AI succeeds by changing environments
+  - not only by becoming smarter
+
+- We adapt the world
+  - to limited ICT capacities
+  - so systems can operate successfully
+
+- Examples
+  - factory floors for robots
+  - boundary wires for lawnmowers
+  - CAPTCHAs for online systems
+  - structured forms for software
+
+- Risk
+  - humans adapt their behaviour
+  - because this becomes easiest
+
+- Better alternative
+  - proactive design
+  - explicit, contestable envelopes
+
+Notes:
+Use Floridi’s Roomba and lawnmower examples. The key line is that the world becomes an infosphere adapted to the limited capacities of ICT. For the keynote, the important move is normative: we should not let LLM agents invisibly reshape organisations into prompt-shaped or API-shaped environments. Intermediate representations are a way to make the envelope explicit.
+
+Citations:
+La quarta rivoluzione on the world becoming adapted to ICT capacities :contentReference[oaicite:10]{index=10}
+La quarta rivoluzione on Roomba and proactive design :contentReference[oaicite:11]{index=11}
+The Ethics of AI on AI-friendly infospheres and CAPTCHAs :contentReference[oaicite:12]{index=12}
+
+---
+
+# Natural language as the means for reasoning
+
+- Natural language is not only the interface
+  - it is also the working medium
+
+- LLMs reason by generating text
+  - intermediate steps
+  - explanations
+  - justifications
+  - candidate actions
+
+- This is powerful
+  - flexible
+  - domain-general
+  - human-readable
+
+- But language is loose
+  - ambiguity
+  - underspecification
+  - rhetorical plausibility
+
+- So language needs mediation
+  - schemas
+  - plans
+  - proofs
+  - traces
+
+Notes:
+This slide should connect to your GenAI material. Natural language can express abstract concepts and support reasoning, but it also admits ambiguity, variable interpretation, subjectivity, and imprecision. This is exactly why it is a useful interface and a weak substrate for governable action.
+
+Citations:
+GenAI slides on language and reasoning :contentReference[oaicite:13]{index=13}
+
+---
+
+# Why natural language became so general
+
+- It can express
+  - objects
+  - events
+  - goals
+  - causes
+  - norms
+
+- It supports abstraction
+  - categories
+  - analogies
+  - hypothetical situations
+
+- It supports coordination
+  - requests
+  - commitments
+  - instructions
+  - explanations
+
+- LLMs exploit this generality
+  - by modelling continuations
+  - across many domains
+
+- But generality is not precision
+  - formalisation is still needed
+
+Notes:
+This slide should feel like a bridge between NLP and KR. Natural language is the universal interface because human worlds are described, negotiated, and coordinated through language. But the same generality creates governance problems: a sentence can suggest a plan, but does not by itself define an executable and verifiable plan.
+
+Citations:
+GenAI slides on language and reasoning :contentReference[oaicite:14]{index=14}
+
+---
+
+# The agentic loop
+
+- Single-pass LLM use
+  - input → output
+
+- Agentic AI loop
+  - observe → decide → act → observe → …
+
+- Each iteration depends on
+  - prior state
+  - model output
+  - external action outcomes
+
+- This is beyond text generation
+  - actions have external semantics
+  - observations come from the environment
+
+- Minimal formula
+  - state → LLM → action → environment → observation → state
+
+Notes:
+This is the central technical pattern. It should be drawn as a loop. Stress that the difference is not that the LLM is magically autonomous. The difference is that outputs are interpreted as actions, executed externally, and fed back into future computation. This creates a trajectory, not a single answer.
+
+Citations:
+M11 on closed-loop agentic systems :contentReference[oaicite:15]{index=15}
+M11 canonical implementation pattern :contentReference[oaicite:16]{index=16}
+
+---
+
+# Agentic loop: example
+
+- User goal
+  - “book a train to Lisbon after the workshop”
+
+- Observe
+  - calendar
+  - travel policy
+  - current ticket options
+
+- Decide
+  - candidate route
+  - budget-compatible option
+  - missing information
+
+- Act
+  - search provider
+  - reserve ticket
+  - send confirmation request
+
+- Observe again
+  - price changed
+  - payment failed
+  - approval required
+
+Notes:
+Use a concrete low-stakes example before high-stakes domains. The point is that the agent must handle changing external state. The model’s text is only one component. Tool outputs, execution errors, approvals, and policy constraints enter the loop as observations.
+
+Citations:
+M11 on environmental feedback loop :contentReference[oaicite:17]{index=17}
+
+---
+
+# ReAct: reasoning, action, observation
+
+- ReAct makes the loop explicit
+  - reasoning → action → observation
+  - then repeat
+
+- Role split
+  - model proposes thought and action
+  - runtime executes the action
+  - result returns as observation
+
+- Strengths
+  - cheap to prototype
+  - interpretable trajectory
+  - natural tool integration
+
+- Weaknesses
+  - prompt-sensitive tool selection
+  - brittle arguments
+  - accumulating long-horizon failures
+
+- Governance question
+  - which parts are commitments?
+
+Notes:
+ReAct is the cleanest bridge from prompt engineering to agentic loops. It shows why traceability matters: the trajectory contains thoughts, tool calls, observations, and final answers. But not every trace is equally reliable. We need to distinguish informal reasoning text from committed action representations.
+
+Citations:
+M11 on ReAct pattern and role split :contentReference[oaicite:18]{index=18}
+M11 on prompted tool use from planners to ReAct :contentReference[oaicite:19]{index=19}
+
+---
+
+# Toolformer: calls inside text
+
+- Toolformer changes the pattern
+  - model emits structured API calls
+  - not only free-form text
+
+- Example
+  - `get_weather(city = "Bologna")`
+
+- Runtime responsibilities
+  - validate arguments
+  - dispatch tool
+  - collect result
+  - return evidence to model
+
+- The model becomes
+  - a decision component
+  - over available operations
+
+- Key lesson
+  - tool calls need schemas
+
+Notes:
+Toolformer is useful because it exposes the boundary between token generation and external execution. The model emits a call as tokens, but the call only matters because the runtime interprets it under a schema and executes external software. That schema is a core intermediate representation.
+
+Citations:
+M11 on Toolformer tool-using agents :contentReference[oaicite:20]{index=20}
+M11 on Toolformer going beyond token generation :contentReference[oaicite:21]{index=21}
+Toolformer
+
+---
+
+# Tool-use loop
+
+- Minimal pattern
+  - reason
+  - select tool
+  - call tool
+  - get feedback
+  - repeat
+
+- Tools address LLM limits
+  - stale world knowledge
+  - weak symbolic reliability
+  - no direct external action
+
+- Typical architecture
+  - LLM core
+  - memory
+  - planner
+  - tool interface
+
+- But tools create risk
+  - wrong call
+  - wrong arguments
+  - wrong trust in output
+
+- Therefore
+  - tool use must be represented
+
+Notes:
+Use this slide to make tools look like a reliability gain and a governance liability at the same time. A calculator reduces arithmetic hallucination; a database gives current facts; a browser gives live evidence. But once the tool can write, buy, delete, send, or schedule, the tool call becomes an accountable action.
+
+Citations:
+M11 on what counts as tool use by an AI agent :contentReference[oaicite:22]{index=22}
+M11 on open problems in tool use :contentReference[oaicite:23]{index=23}
+
+---
+
+# Agentic loop variants
+
+- Memory-augmented agents
+  - retrieve memory
+  - generate
+  - update memory
+
+- AutoGPT-style agents
+  - plan
+  - act
+  - observe
+  - store
+  - evaluate
+  - repeat
+
+- Multi-agent systems
+  - propose
+  - critique
+  - revise
+  - delegate
+
+- Same pattern
+  - stateful closed-loop computation
+
+- Same weakness
+  - weak intermediate representations
+
+Notes:
+This slide generalises the pattern. Many agentic architectures look different rhetorically, but they share the same technical skeleton: persistent state, action selection, external feedback, and update. The keynote thesis is that the safety and reliability of the loop depend on the explicitness of the objects passed through it.
+
+Citations:
+M11 on memory-augmented agents :contentReference[oaicite:24]{index=24}
+M11 on AutoGPT-style autonomous agents :contentReference[oaicite:25]{index=25}
+M11 on multi-agent systems in Agentic AI :contentReference[oaicite:26]{index=26}
+
+---
+
+# The common technical pattern
+
+- Natural language enters the system
+  - intent
+  - context
+  - constraints
+  - evidence
+
+- The model proposes structure
+  - reasoning step
+  - action
+  - tool call
+  - memory update
+
+- Runtime interprets the proposal
+  - validates
+  - executes
+  - observes
+  - logs
+
+- State changes
+  - external world
+  - internal memory
+  - future behaviour
+
+- The crucial layer
+  - intermediate representations
+
+Notes:
+This is the section close. The common pattern is not “LLMs are agents.” The common pattern is mediated closed-loop computation. Natural language is transformed into candidate structures; those structures are interpreted by runtime systems; their effects change the environment and memory. The scientific object is the representational layer where these transformations become inspectable.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:27]{index=27}
+M11 canonical implementation pattern :contentReference[oaicite:28]{index=28}

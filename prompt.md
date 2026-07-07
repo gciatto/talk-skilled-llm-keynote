@@ -199,18 +199,6 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
   * report here the discussion from Omicini's slides M11 - in particular slides 12–20, there including references to ReAct and Toolformer
   * invent examples wherever applicable
 
-* **Slide 13 — Hidden commitments are the real failure mode**
-
-  * Current agents often externalise action without externalising the commitments that justify action
-
-    * Citations: SKILLED-LLMs context pack; WebArena; AgentBench  ([arXiv][8])
-  * The relevant hidden commitments include goals, assumptions, tool effects, norms, authorisations, memory provenance, responsibility boundaries, and evidence
-
-    * Citations: SKILLED-LLMs context pack; governance of autonomous Web agents  ([arXiv][10])
-  * The talk should shift attention from “Can the model answer?” to “Under which explicit commitments may the system act?”
-
-    * Citations: Floridi; SKILLED-LLMs context pack ([Springer Nature][6])
-
 ## **3. Reasoning: symbolic AI, LLMs, and the dual-process analogy**
 
 * **Slide 14 — What is reasoning?**
