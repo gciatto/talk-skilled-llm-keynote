@@ -205,6 +205,8 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
 
   * Reasoning can be defined pragmatically as the controlled transformation of representations to derive, justify, select, or revise conclusions and actions under constraints
 
+  * put examples
+
     * Citations: Russell & Norvig; Sloman; Evans & Stanovich ([api.pageplace.de][4])
   * This definition avoids asking whether LLMs “really reason” and instead asks what representations are transformed, by which operations, under which checks
 
@@ -213,13 +215,27 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
 
   * Symbolic reasoning operates over explicit structures such as logical formulae, states, actions, preconditions, effects, constraints, norms, proofs, and argumentation structures
 
+    * mention van Gelder's definition of symbolic as opposed to "distributed" or "subsymbolic"
+      + do examples and corner cases
+      + take away: symbolic data involves values and categories/types/relations (either explicitly or implicitly defined, each one possibly involving constraints)
+
+    * mention, explain and exemplify well known forms of symbolic reasoning: deduction, induction, abduction, probabilistic, etc.
+
     * Citations: Russell & Norvig; governance of autonomous Web agents ([api.pageplace.de][4])
+
   * Its strengths are inspectability, compositionality, traceability, verification, and relatively well-characterised failure modes
+    * important: stress relevant notions such as correctness, completeness, soundness, consistency, decidability, tractability, optimality, etc.
+      + briefly and intuitively define them, possibly via examples
 
-    * Citations: LLM-Modulo; NIST AI RMF ([arXiv][11])
   * Its weakness is that it depends on having an adequate representation of the relevant world, task, process, and norm system
+    + well known efficiency problems in most cases (completeness, soundness, optimality, etc. commonly come at a price of efficiency)
+    + grounding problem (to be explained and exemplified)
+    + human effort is often required to construct, maintain, and adapt these representations
+      - and their references models
+      - reference here the notions of meta-model, model, and instance
+        * automatisation commonly implies the contruction of a model and making data/operations conform to it
+        * exemplify
 
-    * Citations: LLM-Modulo; SKILLED-LLMs context pack ([arXiv][11])
 * **Slide 16 — LLM reasoning**
 
   * LLM reasoning can be treated as the model’s ability to generate, select, or simulate plausible reasoning-like continuations from learned structure and local context
@@ -236,23 +252,27 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
   * Kahneman’s System 1 and System 2 provide a useful metaphor for fast associative proposal and slower effortful checking, not a literal model of LLM cognition
 
     * Citations: Kahneman; Evans & Stanovich; SKILLED-LLMs context pack  ([University of Plymouth][13])
+
   * The architectural analogy is that LLMs are useful for fast context-sensitive interpretation, while symbolic and formal components are useful for explicit deliberation and governance
 
     * Citations: Sloman; neuro-symbolic LLM reasoning survey; LLM-Modulo ([matt.colorado.edu][14])
-  * The key scientific question is the interface between the two, not the victory of one paradigm over the other
 
-    * Citations: Sloman; SKILLED-LLMs context pack ([matt.colorado.edu][14])
+  * Kanheman prove that humans are affected by biases and heuristics, and that they are not always rational. This is due to the interplay among system 1 and system 2
+    * explain what bias means in general and what heuristics means in general
+    * mention a few well known biases and heuristics, and exemplify them, e.g.:
+      1. Substitution: the system answers an easier question than the one asked;
+      1. Availability: salient traces dominate statistical reality;
+      1. Representativeness: resemblance overrides base rates and formal structure;
+      1. Anchoring: arbitrary starting points shape outputs;
+      1. Coherence/WYSIATI: the system builds plausible stories from incomplete evidence.
+    * insert slides about how these biases and heuristics may affect LLMs, or the users using them
+    * Citations: Kahneman; Evans & Stanovich; SKILLED-LLMs context pack  ([University of Plymouth][13])
 * **Slide 18 — Intermediate traces are useful, but not enough**
 
-  * Chain-of-thought, ReAct traces, Tree-of-Thought states, and Reflexion memories are early examples of externalised cognition
+  * comment on countermeasures that may be applied to mitigate the effects of biases and heuristics
 
-    * Citations: ReAct; Tree of Thoughts; Reflexion ([arXiv][1])
-  * These traces improve visibility but are often weakly typed, weakly constrained, weakly auditable, and difficult to verify
-
-    * Citations: LLM-Modulo; prompt-injection benchmarking; governance of autonomous Web agents ([arXiv][11])
-  * The keynote should use them as a bridge toward stronger intermediate representations such as plans, norm models, tool contracts, and verification targets
-
-    * Citations: SKILLED-LLMs context pack; LLM-Modulo  ([arXiv][11])
+  * intermediate representations makes bias contestable before action
+    * create example
 
 ## **4. Benchmarks and stress tests**
 

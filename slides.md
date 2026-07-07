@@ -961,6 +961,1625 @@ SKILLED-LLMs context pack :contentReference[oaicite:45]{index=45}
 
 ---
 
+# The common technical pattern behind agentic AI
+---
+
+## The common technical pattern behind agentic AI
+
+- The current pattern is not mysterious:
+  - **natural language in**
+  - model-mediated interpretation
+  - tool or memory access
+  - external action or structured answer
+
+- The LLM is rarely the whole system
+  - it is usually embedded in orchestration software
+  - the software controls context, tools, memory, permissions, and stopping
+
+- Agentic AI therefore shifts the question:
+  - from “what can the model say?”
+  - to “what can the system do after the model says something?”
+
+- Running example:
+  - “Please reimburse my Lisbon trip”
+  - the system must parse intent, collect evidence, check policy, plan actions, and submit or escalate
+
+Notes:
+This section should show that many agentic-AI systems share the same hidden pattern. Natural language is used to enter the system, but execution depends on representations, tools, state, and control logic. This is the bridge from prompt engineering to intermediate representations.
+
+Citations:
+M11 Agents & Tools, LLM vs agentic system :contentReference[oaicite:0]{index=0}
+SKILLED-LLMs context pack :contentReference[oaicite:1]{index=1}
+
+---
+
+## Natural language as an interface
+
+- Natural language is now the default interface to AI systems
+  - users describe goals, constraints, preferences, exceptions, and examples
+
+- This is powerful because it lowers formalisation cost
+  - no schema required upfront
+  - no programming language required
+  - partial intentions can still be useful
+
+- It is also fragile because language is underspecified
+  - “cheap hotel”, “reasonable delay”, “urgent”, “compliant” need interpretation
+
+- Prompt engineering is the practice of shaping this interface
+  - the prompt becomes a temporary specification of expected behaviour
+
+- Example:
+  - “reimburse my trip” is weak
+  - “check receipts against policy version X and do not submit without approval” is stronger
+
+Notes:
+Stress the interface role before discussing reasoning. Natural language lets non-experts access complex computation, but it also pushes specification work onto users. The better prompt is already a more structured representation of intent.
+
+Citations:
+GenAI slides on language and reasoning :contentReference[oaicite:2]{index=2}
+
+---
+
+## Prompt engineering: making intent legible
+
+- A good prompt usually improves five things:
+  - **clarity**: what exactly should be done?
+  - **completeness**: what information is needed?
+  - **context**: what background matters?
+  - **constraints**: what is forbidden or required?
+  - **examples**: what outputs count as acceptable?
+
+- Prompt engineering is useful because LLMs are sensitive to formulation
+  - small changes may alter decomposition, style, assumptions, and risk tolerance
+
+- But prompt engineering is not governance
+  - prompt text is weakly typed
+  - constraints are not necessarily enforced
+  - violations may be hard to detect
+
+- Example:
+  - “act as a reimbursement officer” is role-play
+  - “call `check_policy` before `submit_claim`” is closer to a procedural constraint
+
+Notes:
+Introduce prompt engineering as a practical response to the ambiguity of natural language. Then immediately mark its limit: prompts are not contracts, policies, or proofs. They are soft specifications unless connected to external control.
+
+Citations:
+GenAI slides :contentReference[oaicite:3]{index=3}
+M11 on prompt quality and brittleness in ReAct-style agents :contentReference[oaicite:4]{index=4}
+
+---
+
+## Prompt engineering patterns: few-shot
+
+- Few-shot prompting gives the model examples of desired behaviour
+  - input → output
+  - case → decision
+  - question → answer format
+
+- It works by conditioning the model on a local behavioural pattern
+  - often enough for formatting, classification, and simple transformations
+
+- Example:
+  - receipt: “hotel, 120€, Lisbon” → category: accommodation, requires receipt
+  - receipt: “wine, 38€” → category: non-reimbursable, explain reason
+
+- Strength:
+  - quick way to induce task conventions without training
+
+- Weakness:
+  - examples may bias the model toward superficial analogy
+
+Notes:
+Use few-shot as the simplest case of natural-language specification. The examples are not just data: they are an informal representation of a task policy. But the model may generalise from the wrong feature.
+
+Citations:
+GenAI slides :contentReference[oaicite:5]{index=5}
+
+---
+
+## Prompt engineering patterns: chain-of-thought
+
+- Chain-of-thought prompting asks the model to produce intermediate reasoning steps before the final answer
+
+- It often improves multi-step tasks because it externalises a reasoning trace
+  - decompose
+  - compute
+  - compare
+  - conclude
+
+- Example:
+  - list expenses
+  - match each expense to policy
+  - identify missing evidence
+  - decide whether submission is allowed
+
+- Strength:
+  - useful for debugging the model’s apparent reasoning
+
+- Weakness:
+  - a fluent trace is not a proof, plan, or guarantee of correctness
+
+Notes:
+Keep the distinction sharp. Chain-of-thought makes reasoning visible, but not necessarily valid. For the keynote thesis, CoT is a weak intermediate representation: inspectable, but not reliably executable or verifiable.
+
+Citations:
+ReAct discussion in M11 :contentReference[oaicite:6]{index=6}
+LLM-Modulo position paper on LLMs and System-2-like tasks :contentReference[oaicite:7]{index=7}
+
+---
+
+## Prompt engineering patterns: Tree of Thoughts
+
+- Tree-of-Thought prompting explores multiple candidate reasoning paths rather than a single chain
+
+- The model can branch, evaluate alternatives, and backtrack
+  - path A: submit now
+  - path B: ask for missing receipt
+  - path C: escalate to manager
+
+- This is useful for long-horizon tasks
+  - early mistakes can otherwise propagate through the whole trajectory
+
+- Example:
+  - compare possible reimbursement strategies under budget, policy, deadline, and missing-document constraints
+
+- Weakness:
+  - search over thoughts is still not search over a formal state-action model
+
+Notes:
+Present Tree of Thoughts as a bridge toward planning, but not as classical planning. It gives a search-like structure in language space. The representation remains informal unless candidate branches are mapped to actions, states, and constraints.
+
+Citations:
+M11 taxonomy and long-horizon tool use :contentReference[oaicite:8]{index=8}
+M11 on Tree of Thoughts and planning/search :contentReference[oaicite:9]{index=9}
+LLM-Modulo position paper :contentReference[oaicite:10]{index=10}
+
+---
+
+## Prompting as weak formalisation
+
+- Prompting often forces users to become more explicit
+  - state the task
+  - state assumptions
+  - state constraints
+  - provide examples
+  - specify output format
+
+- This is useful
+  - many humans become clearer because the machine is brittle
+
+- But it is also a symptom
+  - the human adapts to the limits of the AI interface
+
+- Example:
+  - instead of “can I get this trip reimbursed?”
+  - users learn to say “classify each receipt, cite the policy, flag missing evidence, and do not submit”
+
+- Prompt engineering is therefore part of a larger adaptation process
+
+Notes:
+This slide prepares Floridi. The point is not that prompt engineering is bad; it is that it shifts work onto humans. They learn to speak in machine-friendly ways. This is a form of informal enveloping.
+
+Citations:
+GenAI slides on ambiguity and reasoning :contentReference[oaicite:11]{index=11}
+AI and Human Adaptation notes :contentReference[oaicite:12]{index=12}
+
+---
+
+## Enveloping
+
+- Floridi’s **enveloping**:
+  - redesign the environment so that limited artificial agents can operate effectively
+
+- The core inversion:
+  - not only AI adapting to the world
+  - but the world adapting to AI
+
+- Classical examples:
+  - factory floors redesigned around robots
+  - roads, maps, sensors, and signals redesigned around autonomous vehicles
+  - forms redesigned around machine-readable fields
+
+- LLM-era example:
+  - humans learn prompt-shaped language so chatbots can interpret them
+
+- Governance question:
+  - who decides which adaptations are acceptable?
+
+Notes:
+Use this slide as a conceptual turning point. Prompt engineering is not isolated; it is a small instance of a broader socio-technical phenomenon. The world becomes more legible to machines. The ethical issue is whether this transformation is deliberate, visible, and contestable.
+
+Citations:
+Floridi, The Fourth Revolution / La quarta rivoluzione :contentReference[oaicite:13]{index=13}
+AI and Human Adaptation notes :contentReference[oaicite:14]{index=14}
+
+---
+
+## Enveloping in agentic AI
+
+- Agentic AI needs envelopes to work reliably
+  - structured tool schemas
+  - constrained workflows
+  - machine-readable policies
+  - typed memory entries
+  - explicit approval states
+
+- Bad enveloping:
+  - humans silently adapt to brittle systems
+  - organisational judgement is compressed into checkboxes
+  - responsibility becomes hard to locate
+
+- Better enveloping:
+  - intermediate representations make adaptations explicit
+  - users can inspect, contest, and revise them
+
+- Example:
+  - a travel policy becomes a versioned rule base, not just a PDF pasted into a prompt
+
+- Thesis:
+  - governed representations are the ethical alternative to invisible adaptation
+
+Notes:
+This slide connects Floridi directly to the keynote thesis. The goal is not to avoid enveloping altogether. Some enveloping is necessary. The point is to make the envelope explicit, auditable, and contestable.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:15]{index=15}
+AI and Human Adaptation notes :contentReference[oaicite:16]{index=16}
+
+---
+
+## Natural language as the means for reasoning
+
+- Natural language is not only the user interface
+  - it is also the medium in which LLMs express intermediate reasoning
+
+- LLMs predict tokens in context
+  - this can generate explanations, derivations, decompositions, and justifications
+
+- This gives LLMs broad task coverage
+  - many domains already encode knowledge and procedures in language
+
+- But natural-language reasoning is loose
+  - ambiguity, missing premises, implicit norms, and rhetorical fluency remain
+
+- Example:
+  - “the hotel is reasonable” sounds like a conclusion, but policy requires a threshold, location, date, and role
+
+Notes:
+Bring back the GenAI slides: language is expressive enough to represent complex and abstract concepts, but it admits ambiguity and variable interpretation. This is why LLMs are useful and dangerous in the same move.
+
+Citations:
+GenAI slides, language and reasoning :contentReference[oaicite:17]{index=17}
+
+---
+
+## The generality of natural language
+
+- Natural language can describe almost anything
+  - goals
+  - rules
+  - exceptions
+  - plans
+  - observations
+  - explanations
+
+- This makes LLMs general-purpose mediators
+  - they can translate messy inputs into candidate structures
+
+- But generality is not precision
+  - the same sentence may support multiple operational interpretations
+
+- Example:
+  - “submit only if the claim is complete”
+  - complete according to whom, which policy, which evidence, and which deadline?
+
+- Representation-centric view:
+  - natural language proposes; explicit representations commit
+
+Notes:
+Use this sentence as a compact slogan: language proposes, representations commit. It should recur later in the talk.
+
+Citations:
+GenAI slides :contentReference[oaicite:18]{index=18}
+SKILLED-LLMs context pack :contentReference[oaicite:19]{index=19}
+
+---
+
+## From single-pass generation to closed-loop agency
+
+- A simple LLM interaction is approximately:
+  - input → output
+
+- An agentic system is a closed loop:
+  - observe → decide → act → observe → …
+
+- The system depends on two histories:
+  - previously emitted tokens
+  - outcomes of previous external actions
+
+- This is the central technical shift
+  - from stateless prediction
+  - to stateful control
+
+- Example:
+  - after a failed policy lookup, the agent may retry, ask a user, or stop
+
+Notes:
+Start the agentic-loop part here. This is the cleanest contrast from M11: single-pass computation versus closed-loop computation. It should visually look like a loop.
+
+Citations:
+M11, closed-loop vs single-pass computation :contentReference[oaicite:20]{index=20}
+
+---
+
+## Agentic systems are stateful
+
+- Agentic systems carry forward explicit state
+  - current goal
+  - task list or plan
+  - intermediate results
+  - memory of observations
+  - tool outputs
+  - error and recovery status
+
+- This is different from relying only on the context window
+  - context is transient
+  - state is managed
+
+- Example:
+  - the agent remembers that the receipt parser failed and must not treat missing amount as zero
+
+- Governance implication:
+  - state must be inspectable, mutable, and attributable
+
+Notes:
+Emphasise that state is the first intermediate representation. Without explicit state, the system cannot be properly debugged or audited.
+
+Citations:
+M11, agentic systems are stateful :contentReference[oaicite:21]{index=21}
+
+---
+
+## The agentic feedback loop
+
+- Once a tool call or action is executed, the system receives feedback from the environment
+
+- Feedback may include:
+  - search results
+  - execution errors
+  - retrieved records
+  - computed values
+  - updated world state
+  - execution traces
+
+- The feedback is folded into the next decision
+  - continue
+  - revise
+  - retry
+  - ask
+  - stop
+
+- Example:
+  - `submit_claim` returns “missing approval”
+  - the next step becomes `request_approval`, not final answer generation
+
+Notes:
+This slide makes clear why agentic AI exceeds text generation. The system reacts to external consequences. That is where tool outputs become evidence and state updates.
+
+Citations:
+M11, environment feedback loop :contentReference[oaicite:22]{index=22}
+
+---
+
+## Canonical tool-use loop
+
+- Practical loop:
+  - perceive state from request, memory, environment, and tool outputs
+  - plan whether to answer, decompose, or act
+  - select tool
+  - call tool with arguments
+  - verify and integrate result
+  - act, continue, or respond
+
+- The LLM may support several steps
+  - interpret request
+  - propose tool
+  - draft arguments
+  - summarise returned evidence
+
+- The controller should govern the loop
+  - validation, permissions, retries, logging, escalation
+
+- Example:
+  - search policy → parse receipt → validate amount → request approval → submit claim
+
+Notes:
+This is a key slide. It gives the audience the “common technical pattern” in one place. Use it as the operational model for the rest of the talk.
+
+Citations:
+M11, canonical tool-use loop :contentReference[oaicite:23]{index=23}
+
+---
+
+## ReAct: reasoning, action, observation
+
+- ReAct makes the loop explicit
+  - reasoning → action → observation → reasoning → …
+
+- Reasoning traces guide tool choice
+  - “I need current policy”
+  - “I should query the HR policy database”
+
+- Actions externalise intent
+  - search, retrieve, calculate, submit, ask
+
+- Observations ground the next step
+  - tool result, error, missing data, contradiction
+
+- Weakness:
+  - formatting, argument generation, and long-horizon reliability remain brittle
+
+Notes:
+Use ReAct as the canonical historical pattern. It is effective because it makes the loop visible, but visibility is not the same as formal control. That is the transition toward representations.
+
+Citations:
+M11, prompted tool use and ReAct :contentReference[oaicite:24]{index=24}
+
+---
+
+## Toolformer: tool use as learned policy
+
+- Toolformer studies models that learn to insert API calls into text
+
+- The model learns:
+  - when to call
+  - which tool to call
+  - how to pass arguments
+  - how to use returned outputs
+
+- Example:
+  - `get_exchange_rate(EUR, USD, date)`
+  - result re-enters the context and changes the answer
+
+- This goes beyond token generation
+  - output is interpreted under a schema
+  - software executes the call
+  - the result becomes new evidence
+
+- Governance issue:
+  - learned tool-use policies still need constraints and verification
+
+Notes:
+Contrast ReAct and Toolformer. ReAct is largely prompt/orchestration driven; Toolformer moves tool-use policy partly into the model. In both cases, the action interface becomes crucial.
+
+Citations:
+M11, Toolformer and tool-use policies :contentReference[oaicite:25]{index=25}
+M11, Toolformer architecture :contentReference[oaicite:26]{index=26}
+M11, beyond token generation :contentReference[oaicite:27]{index=27}
+
+---
+
+## A compact abstraction of agentic systems
+
+- A useful abstraction:
+  - `s_{t+1} = f(s_t, LLM(s_t), Env)`
+
+- Where:
+  - `s_t` is current system state
+  - `LLM(s_t)` supplies a proposal, decision, or action
+  - `Env` determines the result of interaction
+  - `f` updates state for the next step
+
+- This captures the essential move:
+  - from prediction
+  - to control
+  - from answer generation
+  - to state transition
+
+- Example:
+  - state contains “receipt missing”
+  - LLM proposes `ask_user`
+  - environment returns uploaded file
+  - state updates to “receipt available”
+
+Notes:
+This is useful for the expert audience. It abstracts away implementation details while preserving the technical pattern. The key point is that LLM output is only one term in the transition function.
+
+Citations:
+M11, compact abstract representation :contentReference[oaicite:28]{index=28}
+
+---
+
+## Tool use addresses three LLM limits
+
+- Standalone LLMs have stale or missing world knowledge
+  - retrieval and search update the evidence base
+
+- Standalone LLMs have weak symbolic reliability
+  - calculators, solvers, verifiers, and code execution can check results
+
+- Standalone LLMs cannot act on environments
+  - APIs, workflows, and actuators connect text to state change
+
+- Practical architecture:
+  - LLM core + memory + planner + tool interface
+
+- Example:
+  - policy retrieval + tax calculator + ERP submission beats “answer from memory”
+
+Notes:
+This slide should be pragmatic. Tool use is not decorative. It compensates for specific technical limitations of standalone LLMs.
+
+Citations:
+M11, what counts as tool use :contentReference[oaicite:29]{index=29}
+
+---
+
+## Agentic loop: failure modes
+
+- Tool overuse
+  - unnecessary calls increase latency, cost, and attack surface
+
+- Tool underuse
+  - the model answers from memory and hallucinates current facts
+
+- Bad trust calibration
+  - retrieved or executed outputs may be wrong, stale, or adversarial
+
+- Trajectory opacity
+  - final answer may look correct while intermediate steps were invalid
+
+- Irreversible action
+  - sending, deleting, submitting, or paying may be hard to undo
+
+Notes:
+This slide motivates governance. The loop is powerful because it changes state; it is dangerous for the same reason. The question becomes how to constrain and audit the trajectory, not just the final answer.
+
+Citations:
+M11, open problems in tool use :contentReference[oaicite:30]{index=30}
+
+---
+
+## The common pattern, restated
+
+- Agentic AI typically combines:
+  - natural-language interface
+  - LLM-mediated interpretation
+  - explicit state
+  - tool calls
+  - feedback loop
+  - memory
+  - external action
+
+- Prompt engineering shapes the front door
+  - but the system’s behaviour depends on the whole loop
+
+- Enveloping shapes the world around the AI
+  - but it should be visible and governable
+
+- The scientific object is therefore not “the prompt”
+  - it is the intermediate representation connecting language to action
+
+- Next step:
+  - distinguish reasoning traces from governable reasoning artefacts
+
+Notes:
+This is the section conclusion. It should make the thesis unavoidable: natural language is useful, but every useful agentic system immediately creates representations of state, tools, memory, and action. The next section can move to reasoning.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:31]{index=31}
+M11, tool-use loop and agentic systems :contentReference[oaicite:32]{index=32}
+
+---
+
 # Reasoning: symbolic AI, LLMs, and the dual-process analogy
+
+---
+
+## Reasoning: symbolic AI, LLMs, and the dual-process analogy
+
+- This section is not about deciding whether LLMs **really reason**
+
+- It asks a more operational question:
+  - what representations are transformed?
+  - by which operations?
+  - under which constraints?
+  - with which checks?
+
+- The contrast:
+  - symbolic AI reasons over explicit structures
+  - LLMs generate plausible reasoning-like continuations in language
+
+- The bridge:
+  - intermediate representations can turn fluent reasoning traces into governable artefacts
+
+Notes:
+Frame the section as a deflationary move. Avoid metaphysical debates about “real reasoning”. For this keynote, reasoning matters because it affects action. The right question is whether the reasoning process produces commitments that can be inspected, checked, repaired, and contested.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:0]{index=0}
+LLM-Modulo position paper :contentReference[oaicite:1]{index=1}
+
+---
+
+## What is reasoning?
+
+- Pragmatic definition:
+  - reasoning is the **controlled transformation of representations**
+
+- Reasoning may serve different purposes:
+  - derive a conclusion
+  - justify a decision
+  - select an action
+  - revise a belief
+  - resolve a conflict
+
+- “Controlled” means:
+  - operations are constrained
+  - conclusions are checkable
+  - failures are diagnosable
+
+- Example:
+  - from “receipt date = 17 July” and “policy applies from 1 July”
+  - infer that the current policy is applicable
+
+- Example:
+  - from “hotel missing invoice” and “invoice required”
+  - select action `ask_user_for_invoice`
+
+Notes:
+Use this definition because it is neutral between logic, planning, probabilistic inference, argumentation, and LLM traces. The key word is “controlled”: without constraints and checks, we only have association or generation.
+
+Citations:
+Russell & Norvig
+Sloman
+Evans & Stanovich
+LLM-Modulo position paper :contentReference[oaicite:2]{index=2}
+
+---
+
+## Reasoning as representation transformation
+
+- Deductive reasoning:
+  - premises + rules → entailed conclusion
+
+- Planning:
+  - state + actions + goal → action sequence
+
+- Diagnosis:
+  - symptoms + causal model → likely explanation
+
+- Normative reasoning:
+  - facts + norms + roles → obligations and permissions
+
+- LLM-style reasoning trace:
+  - prompt + context → plausible intermediate text → answer
+
+Notes:
+This slide sets up the central comparison. The first four cases make the transformed representation explicit. The LLM case may only expose a textual trace. The question is whether that trace is grounded in a representation that can be checked.
+
+Citations:
+Planning for Intelligent Agents :contentReference[oaicite:3]{index=3}
+SKILLED-LLMs CFP on KR-style reasoning and LLM reasoning :contentReference[oaicite:4]{index=4}
+
+---
+
+## What the definition avoids
+
+- It avoids asking:
+  - does the system “really” understand?
+  - does the system “really” reason?
+  - is the reasoning human-like?
+
+- It asks instead:
+  - what is the input representation?
+  - what is the output representation?
+  - what operations connect them?
+  - what checks constrain them?
+
+- For LLM agents, this is crucial
+  - a fluent explanation may be useful
+  - but action needs commitments
+
+- Example:
+  - “this expense seems eligible” is weak
+  - `eligible(expense_42, policy_2026_v3)` is checkable
+
+Notes:
+Use this slide to make the engineering turn explicit. Symbolic-AI people will appreciate that the issue is not internal phenomenology but representation, transformation, and validation.
+
+Citations:
+LLM-Modulo position paper :contentReference[oaicite:5]{index=5}
+SKILLED-LLMs context pack :contentReference[oaicite:6]{index=6}
+
+---
+
+## Symbolic reasoning
+
+- Symbolic reasoning operates over explicit structures:
+  - formulae
+  - terms
+  - states
+  - actions
+  - constraints
+  - proofs
+  - norms
+
+- The symbols have roles within a formal or semi-formal system
+  - values
+  - categories
+  - types
+  - relations
+  - constraints
+
+- Example:
+  - `amount(expense_42, 120)`
+  - `category(expense_42, hotel)`
+  - `requires_receipt(hotel)`
+
+- Reasoning changes the symbolic state
+  - infer, classify, plan, prove, reject, revise
+
+Notes:
+Define symbolic broadly enough to include logic, planning, constraints, type systems, process models, and normative systems. The point is not that symbols must be human-readable strings. The point is that they play discrete roles in an explicit structure.
+
+Citations:
+Russell & Norvig
+A&A and explicit modelling of agents, artifacts, and environments :contentReference[oaicite:7]{index=7}
+
+---
+
+## Symbolic vs distributed representations
+
+- Symbolic representations use discrete structures
+  - tokens, objects, predicates, rules, types, graph nodes
+
+- Distributed representations encode information across many dimensions
+  - embeddings, activations, latent vectors, attention patterns
+
+- Symbolic example:
+  - `approved_by(claim_7, manager_3)`
+
+- Distributed example:
+  - an embedding vector representing semantic proximity between “hotel invoice” and “accommodation receipt”
+
+- Corner case:
+  - a JSON object is symbolic in structure, even if some fields contain embeddings or free text
+
+Notes:
+Bring in van Gelder here. The useful contrast is not “good vs bad”, but explicit role structure vs sub-symbolic distributed encoding. In practice, agentic systems mix both.
+
+Citations:
+van Gelder
+GenAI slides on foundation models and unstructured data :contentReference[oaicite:8]{index=8}
+
+---
+
+## What makes data symbolic?
+
+- Symbolic data involves identifiable values
+  - `120`, `EUR`, `2026-07-17`, `hotel`
+
+- It also involves categories or types
+  - expense, user, receipt, policy, claim
+
+- It involves relations
+  - submitted-by, approved-by, contradicts, requires, before
+
+- It often involves constraints
+  - amount must be positive
+  - approval must precede submission
+  - policy version must be active
+
+- Takeaway:
+  - symbolic data is data with **role**, **structure**, and **commitment**
+
+Notes:
+This slide should be practical. Many people think “symbolic” means old-fashioned logic only. Make it broader: typed records, workflow states, policy clauses, and tool schemas are symbolic too.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:9]{index=9}
+
+---
+
+## Symbolic reasoning forms: deduction
+
+- Deduction derives what follows from premises and rules
+
+- Example:
+  - all hotel expenses require receipts
+  - this expense is a hotel expense
+  - therefore this expense requires a receipt
+
+- Strength:
+  - if premises and rules are correct, the conclusion is guaranteed
+
+- Agentic use:
+  - policy checking
+  - permission checking
+  - consistency checking
+
+- Failure mode:
+  - wrong rule or wrong fact yields formally valid but practically wrong conclusions
+
+Notes:
+Keep the examples banal and organisational. The point is to make the mechanics obvious before discussing limits.
+
+Citations:
+Russell & Norvig
+Planning and formal reasoning context :contentReference[oaicite:10]{index=10}
+
+---
+
+## Symbolic reasoning forms: induction
+
+- Induction generalises from observed cases
+
+- Example:
+  - previous taxi receipts under 40€ were accepted
+  - infer that similar taxi receipts are usually acceptable
+
+- Strength:
+  - useful when rules are incomplete or implicit
+
+- Agentic use:
+  - learn recurring workflows
+  - infer user preferences
+  - detect typical exceptions
+
+- Failure mode:
+  - apparent regularities may be spurious or outdated
+
+Notes:
+Use induction to connect symbolic and statistical intuitions. Induction may produce candidate rules, but those rules still need validation before governing action.
+
+Citations:
+Russell & Norvig
+SKILLED-LLMs CFP on statistical learning and symbolic reasoning :contentReference[oaicite:11]{index=11}
+
+---
+
+## Symbolic reasoning forms: abduction
+
+- Abduction infers a plausible explanation for observations
+
+- Example:
+  - the claim was rejected
+  - the receipt is missing
+  - plausible explanation: rejection was due to missing evidence
+
+- Strength:
+  - useful for diagnosis and sense-making
+
+- Agentic use:
+  - explain tool failures
+  - infer missing information
+  - propose repair actions
+
+- Failure mode:
+  - the best explanation may be plausible but false
+
+Notes:
+Abduction is particularly relevant for LLM agents because they often need to infer what went wrong in a process. It should trigger verification, not immediate action.
+
+Citations:
+Russell & Norvig
+LLM-Modulo position paper on LLMs as approximate knowledge sources :contentReference[oaicite:12]{index=12}
+
+---
+
+## Symbolic reasoning forms: probabilistic reasoning
+
+- Probabilistic reasoning handles uncertainty explicitly
+
+- Example:
+  - OCR confidence for receipt date = 0.72
+  - supplier classification confidence = 0.61
+  - policy match confidence = 0.89
+
+- Strength:
+  - uncertainty is represented rather than hidden
+
+- Agentic use:
+  - decide whether to ask for confirmation
+  - rank hypotheses
+  - avoid overconfident action
+
+- Failure mode:
+  - probabilities may be badly calibrated or based on poor evidence
+
+Notes:
+Use this to avoid a simplistic symbolic-vs-statistical split. Probabilistic reasoning can be highly structured. The issue is whether uncertainty is represented and acted upon responsibly.
+
+Citations:
+SKILLED-LLMs CFP on statistics and KR integration :contentReference[oaicite:13]{index=13}
+
+---
+
+## Why symbolic reasoning is attractive
+
+- **Inspectability**
+  - one can inspect premises, rules, states, plans, and conclusions
+
+- **Compositionality**
+  - smaller structures can be combined into larger ones
+
+- **Traceability**
+  - one can reconstruct why a conclusion or action occurred
+
+- **Verification**
+  - one can check whether constraints, invariants, or norms hold
+
+- **Diagnosable failure**
+  - wrong fact, wrong rule, missing precondition, inconsistent model
+
+Notes:
+This slide should sound like the positive case for symbolic AI, but not nostalgic. These strengths become crucial exactly when LLM agents start acting.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:14]{index=14}
+A&A meta-model :contentReference[oaicite:15]{index=15}
+
+---
+
+## Correctness, soundness, completeness
+
+- **Correctness**
+  - the system returns outputs that satisfy the intended specification
+
+- **Soundness**
+  - every derived conclusion is valid according to the rules
+
+- **Completeness**
+  - every valid conclusion can in principle be derived
+
+- Example:
+  - sound but incomplete policy checker: never approves invalid claims, but may reject some valid ones
+
+- Example:
+  - unsound but useful heuristic: finds many eligible claims, but sometimes approves invalid ones
+
+Notes:
+Use intuitive examples. Completeness is often too expensive or impossible in rich domains. For trustworthy systems, one may prefer sound conservative behaviour in high-risk actions.
+
+Citations:
+Russell & Norvig
+Planning for Intelligent Agents :contentReference[oaicite:16]{index=16}
+
+---
+
+## Consistency, decidability, tractability
+
+- **Consistency**
+  - the representation does not entail contradictions
+
+- **Decidability**
+  - there is a procedure that always terminates with an answer
+
+- **Tractability**
+  - the procedure is computationally feasible at relevant scale
+
+- Example:
+  - two policies say the same expense is both allowed and forbidden
+
+- Example:
+  - a complete compliance check may be decidable but too slow for real-time assistance
+
+Notes:
+The point is that formal guarantees are not free. They depend on representation choices. This is where symbolic AI becomes an engineering discipline, not just a formal ideal.
+
+Citations:
+Russell & Norvig
+Planning for Intelligent Agents :contentReference[oaicite:17]{index=17}
+
+---
+
+## Optimality and its price
+
+- **Optimality**
+  - the selected solution is best according to a specified criterion
+
+- Example criteria:
+  - minimum cost
+  - shortest time
+  - lowest risk
+  - maximum compliance
+  - least user effort
+
+- Example:
+  - fastest reimbursement path may not be the safest compliance path
+
+- Trade-off:
+  - optimality requires a model of preferences and costs
+
+- Practical risk:
+  - the wrong objective can optimise the wrong behaviour
+
+Notes:
+Connect this to governance. An agent cannot be “optimal” in the abstract. It is optimal relative to a represented objective, and that objective may encode value choices.
+
+Citations:
+Planning for Intelligent Agents :contentReference[oaicite:18]{index=18}
+
+---
+
+## The price of symbolic reasoning
+
+- Symbolic reasoning depends on adequate representations
+  - relevant facts
+  - relevant actions
+  - relevant norms
+  - relevant exceptions
+
+- Building these representations is costly
+  - elicitation
+  - modelling
+  - validation
+  - maintenance
+  - adaptation
+
+- Efficiency problems are common
+  - richer formalisms often increase computational cost
+
+- Example:
+  - a perfect model of all reimbursement exceptions may be harder than the reimbursement task itself
+
+- This is where LLMs become useful
+  - interpretation, extraction, hypothesis generation, model drafting
+
+Notes:
+Do not oversell symbolic AI. Its weakness is exactly where LLMs help: entering messy, underspecified, natural-language worlds.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:19]{index=19}
+LLM-Modulo position paper :contentReference[oaicite:20]{index=20}
+
+---
+
+## The grounding problem
+
+- Symbols must be connected to the world they describe
+
+- Example:
+  - `receipt(expense_42)` is only useful if `expense_42` really refers to the submitted document
+
+- Grounding requires mappings
+  - OCR output → receipt fields
+  - policy PDF → formal rule
+  - user sentence → goal
+  - tool result → world state
+
+- Failure example:
+  - the system classifies a restaurant receipt as “conference fee” because the text mentions a conference dinner
+
+- Grounding is not solved by fluency
+  - naming something correctly is not the same as attaching it correctly
+
+Notes:
+This is central. Symbolic representations are powerful only when grounded. LLMs help create candidate mappings, but they can also hallucinate mappings.
+
+Citations:
+GenAI slides on ambiguity and LLM confidence :contentReference[oaicite:21]{index=21}
+SKILLED-LLMs context pack :contentReference[oaicite:22]{index=22}
+
+---
+
+## Meta-model, model, instance
+
+- **Meta-model**
+  - defines the modelling language
+  - example: BPMN, PDDL, JSON schema, ontology language
+
+- **Model**
+  - describes a class of situations using that language
+  - example: reimbursement workflow or travel policy model
+
+- **Instance**
+  - concrete case conforming to the model
+  - example: claim `C-2026-481` with receipts and approvals
+
+- Automation commonly requires all three
+  - otherwise the system cannot know what operations mean
+
+- Example:
+  - a receipt must conform to an expense schema before policy checking is reliable
+
+Notes:
+This slide gives the audience modelling vocabulary for the rest of the talk. The key claim: automation is not only execution; it is making data and operations conform to a model.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:23]{index=23}
+Planning for Intelligent Agents :contentReference[oaicite:24]{index=24}
+
+---
+
+## LLM reasoning
+
+- LLM reasoning can be treated operationally as:
+  - generating, selecting, or simulating reasoning-like continuations from learned structure and local context
+
+- It often appears as:
+  - explanation
+  - decomposition
+  - analogy
+  - justification
+  - step-by-step text
+  - tool-call proposal
+
+- Strength:
+  - broad linguistic and semantic coverage
+
+- Weakness:
+  - the trace may not correspond to valid inference or executable action
+
+- Example:
+  - “first get approval, then submit” may be plausible but not executable without tool names, roles, and preconditions
+
+Notes:
+This is the core LLM-reasoning definition. Keep it neutral. Avoid “mere stochastic parroting” language; it is rhetorically weak for this audience. The operational critique is enough.
+
+Citations:
+ReAct
+Tree of Thoughts
+LLM-Modulo position paper :contentReference[oaicite:25]{index=25}
+
+---
+
+## What LLMs are often good at
+
+- Interpretation
+  - map messy user requests to plausible task descriptions
+
+- Hypothesis generation
+  - propose candidate explanations, missing facts, or next steps
+
+- Linguistic abstraction
+  - summarise, paraphrase, generalise, compare
+
+- Approximate semantic matching
+  - relate informal wording to relevant concepts or documents
+
+- Example:
+  - connect “conference dinner” to travel, hospitality, reimbursement, and policy exceptions
+
+Notes:
+Make the positive side concrete. These are exactly the abilities needed to enter messy human worlds. This supports the talk’s central thesis rather than undermining it.
+
+Citations:
+GenAI slides :contentReference[oaicite:26]{index=26}
+Toolformer
+ReAct
+LLM-Modulo position paper :contentReference[oaicite:27]{index=27}
+
+---
+
+## Where LLM reasoning remains fragile
+
+- Executable plans
+  - natural-language steps may not map to available actions
+
+- Valid constraints
+  - the model may omit preconditions or invent exceptions
+
+- Verified state transitions
+  - the model may not know what changed after a tool call
+
+- Durable commitments
+  - the model may contradict itself across turns or sessions
+
+- Example:
+  - “the claim is now submitted” is false unless a tool returned a submission ID
+
+Notes:
+Use this slide to motivate external state and tool result verification. The issue is not that LLMs cannot produce useful plans; it is that text plans are not governed plans.
+
+Citations:
+LLMs Can’t Plan position paper :contentReference[oaicite:28]{index=28}
+BDI plan-generation paper :contentReference[oaicite:29]{index=29}
+WebArena
+
+---
+
+## LLM reasoning as proposal, not verdict
+
+- Treat LLM outputs as candidate reasoning artefacts
+  - candidate rule
+  - candidate plan
+  - candidate explanation
+  - candidate classification
+
+- Then bind them to checks:
+  - type checking
+  - policy checking
+  - plan validation
+  - consistency checking
+  - human approval
+
+- Example:
+  - LLM proposes “meal is reimbursable”
+  - policy checker verifies category, amount, role, and receipt evidence
+
+- This is the LLM-Modulo intuition
+  - use LLMs as approximate knowledge sources
+  - use external components for validation
+
+Notes:
+This is one of the most important slides. It gives a constructive position: LLMs are not the authority; they are generators of candidates for governed reasoning.
+
+Citations:
+LLM-Modulo position paper :contentReference[oaicite:30]{index=30}
+SKILLED-LLMs CFP on neuro-symbolic integration :contentReference[oaicite:31]{index=31}
+
+---
+
+## Dual-system analogy, with caveat
+
+- Kahneman’s System 1 / System 2 distinction is useful as a metaphor
+
+- System 1:
+  - fast
+  - associative
+  - automatic
+  - pattern-based
+
+- System 2:
+  - slower
+  - effortful
+  - controlled
+  - rule-sensitive
+
+- Caveat:
+  - this is not a literal model of LLM cognition
+
+- Architectural analogy:
+  - LLMs propose quickly; symbolic components check deliberately
+
+Notes:
+Say the caveat clearly. The analogy is architectural and explanatory, not cognitive science about LLMs. It helps audiences understand why fluent generation and formal checking should be combined.
+
+Citations:
+Kahneman, Thinking Fast and Slow :contentReference[oaicite:32]{index=32}
+LLM-Modulo position paper :contentReference[oaicite:33]{index=33}
+SKILLED-LLMs context pack :contentReference[oaicite:34]{index=34}
+
+---
+
+## Dual-system analogy for LLM agents
+
+- LLM-like component:
+  - interprets context
+  - proposes candidate actions
+  - generates explanations
+  - retrieves analogies and patterns
+
+- Symbolic/formal component:
+  - checks constraints
+  - validates plans
+  - enforces norms
+  - tracks state
+  - records accountability
+
+- Agentic controller:
+  - coordinates both sides in a loop
+
+- Example:
+  - LLM proposes reimbursement path
+  - workflow engine checks process state
+  - policy reasoner checks eligibility
+  - controller decides whether to act
+
+Notes:
+This slide turns the psychological metaphor into an architecture sketch. It should look like the representation-centric thesis in miniature.
+
+Citations:
+LLM-Modulo position paper :contentReference[oaicite:35]{index=35}
+SKILLED-LLMs context pack :contentReference[oaicite:36]{index=36}
+
+---
+
+## Biases and heuristics
+
+- A **heuristic** is a simplifying strategy
+  - useful when exact reasoning is costly or unavailable
+
+- A **bias** is a systematic error pattern
+  - predictable deviation from a norm, model, or target
+
+- Heuristics are not always bad
+  - they enable fast judgement under uncertainty
+
+- Biases matter because they can affect decisions repeatedly
+  - especially when systems act at scale
+
+- Example:
+  - “this looks like an eligible receipt” may ignore the actual policy threshold
+
+Notes:
+Use Kahneman carefully. His point is not that humans are irrational all the time. It is that fast judgement is useful but systematically fallible. The same lesson applies to LLM-mediated judgement by analogy.
+
+Citations:
+Kahneman, Thinking Fast and Slow :contentReference[oaicite:37]{index=37}
+
+---
+
+## Bias: substitution
+
+- Substitution:
+  - answering an easier question than the one actually asked
+
+- Human example:
+  - “is this policy good?” becomes “do I like the person proposing it?”
+
+- LLM-agent example:
+  - “is this expense compliant?” becomes “does this expense sound reasonable?”
+
+- User example:
+  - the user accepts a fluent answer because it answers a nearby question convincingly
+
+- Countermeasure:
+  - represent the actual decision criterion explicitly before answering
+
+Notes:
+This is highly relevant for LLMs. The model may substitute formal compliance with semantic plausibility. The system must force the target question into an explicit representation.
+
+Citations:
+Kahneman, substitution and heuristics :contentReference[oaicite:38]{index=38}
+
+---
+
+## Bias: availability
+
+- Availability:
+  - salient or easily retrieved information dominates judgement
+
+- Human example:
+  - recent news makes a rare risk feel common
+
+- LLM-agent example:
+  - retrieved snippets dominate the answer even if the corpus contains contrary evidence
+
+- User example:
+  - the user overweights the first plausible citation or example shown by the chatbot
+
+- Countermeasure:
+  - track retrieval coverage, provenance, and missing evidence
+
+Notes:
+Make the retrieval link explicit. RAG systems can create availability bias: what is retrieved becomes what exists for the agent.
+
+Citations:
+Kahneman, availability heuristic :contentReference[oaicite:39]{index=39}
+SKILLED-LLMs context pack on memory and traces :contentReference[oaicite:40]{index=40}
+
+---
+
+## Bias: representativeness
+
+- Representativeness:
+  - resemblance overrides base rates and formal structure
+
+- Human example:
+  - “Steve sounds like a librarian”, ignoring how many farmers exist
+
+- LLM-agent example:
+  - “this looks like a conference expense”, ignoring policy category definitions
+
+- User example:
+  - users trust an answer because it resembles expert reasoning
+
+- Countermeasure:
+  - require explicit base rates, rule references, and category definitions
+
+Notes:
+Kahneman’s Steve example is useful but keep it brief. Then translate it to policy classification: resemblance is not eligibility.
+
+Citations:
+Kahneman, representativeness example :contentReference[oaicite:41]{index=41}
+
+---
+
+## Bias: anchoring
+
+- Anchoring:
+  - an initial value or framing shapes later judgement
+
+- Human example:
+  - a first price offer influences perceived fair price
+
+- LLM-agent example:
+  - a user says “this should be reimbursable”, and the model searches for supporting reasons
+
+- User example:
+  - the first generated plan becomes the default even after contrary evidence appears
+
+- Countermeasure:
+  - generate alternatives and evaluate them against explicit criteria
+
+Notes:
+Anchoring is useful for explaining why initial prompts matter. Prompt framing can bias both the LLM output and the user’s evaluation of it.
+
+Citations:
+Kahneman, anchoring :contentReference[oaicite:42]{index=42}
+Tree of Thoughts
+LLM-Modulo position paper :contentReference[oaicite:43]{index=43}
+
+---
+
+## Bias: coherence and WYSIATI
+
+- WYSIATI:
+  - “what you see is all there is”
+
+- The system builds a coherent story from incomplete evidence
+
+- Human example:
+  - a convincing narrative hides missing data
+
+- LLM-agent example:
+  - the model explains a claim decision without noticing that the policy version is missing
+
+- User example:
+  - a polished explanation feels complete because it is coherent
+
+- Countermeasure:
+  - represent unknowns explicitly and block action when required evidence is absent
+
+Notes:
+This is one of the most important biases for LLM interaction. Fluency creates closure. Intermediate representations should keep uncertainty and missing evidence visible.
+
+Citations:
+Kahneman, coherence and WYSIATI :contentReference[oaicite:44]{index=44}
+GenAI slides on confident incorrect outputs :contentReference[oaicite:45]{index=45}
+
+---
+
+## Biases in LLM-agent use
+
+- LLMs may amplify user biases
+  - confirmation-seeking prompts receive confirmation-shaped answers
+
+- Users may over-trust fluent answers
+  - explanation quality is mistaken for decision quality
+
+- Retrieval may create artificial salience
+  - what is retrieved becomes what the agent “knows”
+
+- Tool outputs may create false certainty
+  - precise numbers may hide wrong inputs or wrong tools
+
+- Agent loops may accumulate bias
+  - early misclassification propagates through later actions
+
+Notes:
+This slide moves from individual biases to system behaviour. Biases are not only in the model; they are in the interaction loop, retrieval process, tool interface, memory update, and user interpretation.
+
+Citations:
+Kahneman :contentReference[oaicite:46]{index=46}
+SKILLED-LLMs context pack :contentReference[oaicite:47]{index=47}
+
+---
+
+## Bias countermeasures
+
+- Slow down consequential decisions
+  - require explicit checks before irreversible actions
+
+- Separate proposal from validation
+  - LLM proposes, external component verifies
+
+- Force missing-evidence reporting
+  - unknowns must remain visible
+
+- Use alternative generation
+  - compare multiple plans, explanations, or classifications
+
+- Log the trajectory
+  - record prompts, retrieved evidence, tool calls, decisions, and overrides
+
+Notes:
+These are not psychological fixes; they are architectural fixes. The agent should make bias contestable before action occurs.
+
+Citations:
+LLM-Modulo position paper :contentReference[oaicite:48]{index=48}
+SKILLED-LLMs context pack :contentReference[oaicite:49]{index=49}
+
+---
+
+## Intermediate traces are useful, but not enough
+
+- Reasoning traces help
+  - they expose assumptions
+  - they reveal decomposition
+  - they support debugging
+
+- But traces are not enough
+  - they may be post-hoc
+  - they may be incomplete
+  - they may be persuasive rather than valid
+
+- A trace becomes governable only when linked to:
+  - evidence
+  - rules
+  - action models
+  - state transitions
+  - responsibility records
+
+- Example:
+  - “I checked the policy” is weak
+  - `checked(policy_2026_v3, clause_4.2, timestamp, tool_result_id)` is auditable
+
+Notes:
+This slide should distinguish chain-of-thought-style text from accountability traces. The keynote’s thesis depends on this distinction.
+
+Citations:
+ReAct
+SKILLED-LLMs context pack :contentReference[oaicite:50]{index=50}
+
+---
+
+## Intermediate representations make bias contestable
+
+- Before action, represent:
+  - target question
+  - evidence used
+  - evidence missing
+  - rule applied
+  - confidence or uncertainty
+  - proposed action
+
+- Example:
+  - target: eligibility of hotel expense
+  - evidence: invoice, date, amount, employee role
+  - missing: project code
+  - rule: travel policy 2026, clause 4.2
+  - action: ask user for project code
+
+- Bias becomes contestable because the system exposes what it relied on
+
+- The user or verifier can now ask:
+  - wrong evidence?
+  - wrong rule?
+  - wrong category?
+  - missing exception?
+
+Notes:
+This is the constructive close of the reasoning section. Bias cannot be eliminated, but it can be surfaced before it becomes action.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:51]{index=51}
+
+---
+
+## Section takeaway: reasoning needs a substrate
+
+- Symbolic reasoning gives explicit commitments
+  - but needs adequate models and grounding
+
+- LLM reasoning gives flexible interpretation
+  - but remains fragile when action must be verified
+
+- Dual-system analogy is useful only architecturally
+  - fast proposals
+  - slower checks
+  - governed commitments
+
+- Biases and heuristics affect both models and users
+  - especially through prompts, retrieval, memory, and explanations
+
+- Trustworthy LLM agents need intermediate representations
+  - not just intermediate text
+
+Notes:
+Use this as the transition toward the next section. The key sentence is “not just intermediate text”. It distinguishes the keynote from prompt-engineering talks.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:52]{index=52}
+LLM-Modulo position paper :contentReference[oaicite:53]{index=53}
+
+---
+
+# Benchmarks and stress tests
 
 ---
