@@ -4576,21 +4576,710 @@ End this section by making the thesis explicit again. Intermediate representatio
 Citations:
 SKILLED-LLMs context pack :contentReference[oaicite:35]{index=35}
 
+---
 
-[1]: https://arcprize.org/leaderboard "ARC Prize - Leaderboard"
-[2]: https://arxiv.org/abs/2601.10904?utm_source=chatgpt.com "ARC Prize 2025: Technical Report"
-[3]: https://arcprize.org/competitions/2026 "ARC Prize 2026"
-[4]: https://arcprize.org/arc-agi/3/leaderboard "ARC-AGI-3 Leaderboard"
-[5]: https://arxiv.org/abs/2311.12983?utm_source=chatgpt.com "GAIA: a benchmark for General AI Assistants"
-[6]: https://arxiv.org/abs/2307.13854?utm_source=chatgpt.com "WebArena: A Realistic Web Environment for Building Autonomous Agents"
-[7]: https://arxiv.org/abs/2308.03688?utm_source=chatgpt.com "AgentBench: Evaluating LLMs as Agents"
-[8]: https://www.swebench.com/verified.html?utm_source=chatgpt.com "SWE-bench Verified"
-[9]: https://gaia-benchmark-leaderboard.hf.space/?utm_source=chatgpt.com "gaia-benchmark-leaderboard.hf.space - Gradio"
-[10]: https://leaderboard.steel.dev/leaderboards/gaia/?utm_source=chatgpt.com "GAIA Leaderboard 2026: Latest AI Assistant Scores | Steel.dev"
-[11]: https://leaderboard.steel.dev/leaderboards/webarena/?utm_source=chatgpt.com "WebArena Leaderboard 2026: Latest Browser Agent Scores | Steel.dev"
-[12]: https://github.com/THUDM/AgentBench?utm_source=chatgpt.com "GitHub - THUDM/AgentBench: A Comprehensive Benchmark to Evaluate LLMs ..."
-[13]: https://www.swebench.com/?utm_source=chatgpt.com "SWE-bench Leaderboards"
-[14]: https://arxiv.org/abs/2602.04449?utm_source=chatgpt.com "What's in a Benchmark? The Case of SWE-Bench in Automated Program Repair"
-[15]: https://leaderboard.steel.dev/results "AI Agent Benchmark Results: All 13 Leaderboards in One Index | Steel.dev"
-[16]: https://benchlm.ai/benchmarks/sweVerified?utm_source=chatgpt.com "SWE-bench Verified Benchmark 2026: 57 LLM scores"
-[17]: https://benchlm.ai/benchmarks/gaia?utm_source=chatgpt.com "GAIA Benchmark 2026: 27 tracked score rows | BenchLM.ai"
+# Application pattern and research agenda
+
+---
+
+## Where this matters most
+
+- Strongest application pattern:
+  - **knowledge-intensive organisational automation under constraints**
+
+- These are domains where action depends on documents, rules, roles, exceptions, and accountability
+
+- Typical domains:
+  - public administration
+  - healthcare
+  - law
+  - compliance engineering
+  - industrial documentation
+  - ERP/process alignment
+  - robotics governance
+  - scientific workflow support
+
+- Example:
+  - an assistant that reconstructs a clinical referral workflow from guidelines, hospital forms, emails, and audit requirements
+
+- Why it matters:
+  - the output is not only an answer; it may become an institutional action
+
+Notes:
+Open with the application pattern, not with domains. The common structure is more important than the sector: knowledge-rich, document-heavy, norm-constrained, and organisationally accountable.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:0]{index=0}
+NIST AI RMF on managing risks to individuals, organisations, and society :contentReference[oaicite:1]{index=1}
+
+---
+
+## Why these domains are hard
+
+- Inputs are linguistic
+  - laws, policies, manuals, emails, tickets, notes, forms
+
+- Processes are underspecified
+  - “the usual approval path” is often not written anywhere
+
+- Norms are distributed
+  - across law, contracts, local policy, professional practice, and precedent
+
+- Exceptions are frequent
+  - emergency care, urgent procurement, missing documents, special authorisations
+
+- Responsibility remains human
+  - the agent may automate steps, but accountability cannot disappear
+
+Notes:
+Use concrete cases. In healthcare, the relevant rule may be in a clinical guideline, a hospital procedure, and a patient-consent form. In public administration, the workflow may be partly legal, partly procedural, and partly tacit.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:2]{index=2}
+EU AI Act high-risk guidelines classify systems by practical risk contexts and examples :contentReference[oaicite:3]{index=3}
+NIST AI RMF trustworthy AI characteristics include accountability, transparency, safety, privacy, and fairness :contentReference[oaicite:4]{index=4}
+
+---
+
+## Application example: public administration
+
+- User request:
+  - “Help me apply for this benefit”
+
+- Inputs:
+  - eligibility law
+  - application form
+  - identity documents
+  - household records
+  - deadline rules
+  - appeal procedure
+
+- Intermediate representations:
+  - eligibility checklist
+  - document schema
+  - process model
+  - decision trace
+  - appeal rights
+
+- Failure without representations:
+  - the assistant gives a plausible answer but misses a mandatory attachment or appeal deadline
+
+Notes:
+This is a good example because public administration combines formal norms, citizen-facing language, and high accountability. The system must distinguish advice, eligibility assessment, submission, and administrative decision.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:5]{index=5}
+
+---
+
+## Application example: healthcare
+
+- User request:
+  - “Prepare the referral and check whether the pathway is correct”
+
+- Inputs:
+  - clinical guideline
+  - patient record
+  - hospital workflow
+  - consent constraints
+  - insurance or reimbursement rules
+
+- Intermediate representations:
+  - clinical pathway
+  - evidence checklist
+  - consent status
+  - escalation conditions
+  - audit trail
+
+- Failure without representations:
+  - the assistant may produce a good summary but route the patient through the wrong pathway
+
+Notes:
+Do not imply autonomous medical decision-making. Frame the agent as workflow support under human responsibility. The point is that clinical text must be converted into governed process artefacts before action.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:6]{index=6}
+NIST AI RMF risk-management framing :contentReference[oaicite:7]{index=7}
+
+---
+
+## Application example: compliance engineering
+
+- User request:
+  - “Check whether this process complies with the new policy”
+
+- Inputs:
+  - process description
+  - regulation
+  - internal policy
+  - logs
+  - roles and permissions
+  - exception records
+
+- Intermediate representations:
+  - norm model
+  - process model
+  - conformance assertions
+  - runtime monitor
+  - violation report
+
+- Failure without representations:
+  - the model says “looks compliant” without proving that all execution paths satisfy the norm
+
+Notes:
+This example should point directly to verification and monitoring. Compliance is not a sentiment. It is a relation between represented norms, represented processes, and represented traces.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:8]{index=8}
+EU AI Act risk-based regulatory framing :contentReference[oaicite:9]{index=9}
+
+---
+
+## Research agenda: representation induction
+
+- Central research problem:
+  - infer useful intermediate representations from messy organisational evidence
+
+- Candidate inputs:
+  - documents
+  - logs
+  - conversations
+  - forms
+  - diagrams
+  - examples
+  - expert corrections
+
+- Candidate outputs:
+  - process models
+  - norms
+  - ontologies
+  - tool contracts
+  - verification targets
+
+- Example:
+  - infer a procurement workflow from policy PDFs, historical tickets, ERP logs, and interviews with administrators
+
+Notes:
+This is the first research-agenda slide. Emphasise that “representation induction” is not merely information extraction. It is the construction of governable artefacts from heterogeneous evidence.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:10]{index=10}
+SKILLED-LLMs CFP on integrating KR-style reasoning, deep learning, and neuro-symbolic systems :contentReference[oaicite:11]{index=11}
+
+---
+
+## Representation induction: what LLMs can do
+
+- LLMs can propose candidate structures
+  - extract entities and relations
+  - cluster activities
+  - identify roles
+  - suggest process steps
+  - draft rules and exceptions
+
+- They are useful because organisational knowledge is often linguistic
+
+- Example:
+  - from “claims above 500€ need manager approval”
+  - propose a norm and a process gateway
+
+- But candidate structures must expose:
+  - incompleteness
+  - uncertainty
+  - contradiction
+  - normative ambiguity
+
+- The output should be a reviewable artefact, not a hidden model belief
+
+Notes:
+This slide should be positive but controlled. LLMs are excellent at proposing candidate representations. The governance move is to surface what is missing, ambiguous, or contradictory before the representation is used.
+
+Citations:
+LLM-Modulo position paper :contentReference[oaicite:12]{index=12}
+SKILLED-LLMs context pack :contentReference[oaicite:13]{index=13}
+
+---
+
+## Representation induction: practical risks
+
+- Incompleteness
+  - the extracted process omits emergency escalation
+
+- Uncertainty
+  - the model is unsure whether “review” means advice or formal approval
+
+- Contradiction
+  - old and new policies specify different thresholds
+
+- Normative ambiguity
+  - “reasonable expense” lacks a computable criterion
+
+- Prompt-injection risk
+  - untrusted documents may try to influence the agent’s interpretation
+
+Notes:
+Use this slide to justify why representation induction must include uncertainty and provenance. It is not safe to simply extract rules and deploy them.
+
+Citations:
+WASP benchmark shows realistic web agents can be deceived by simple injected instructions :contentReference[oaicite:14]{index=14}
+WAInjectBench studies prompt-injection attacks targeting web agents :contentReference[oaicite:15]{index=15}
+SKILLED-LLMs context pack :contentReference[oaicite:16]{index=16}
+
+---
+
+## Research agenda: validation and repair
+
+- Extracted representations need validation before they govern action
+
+- Validation mechanisms:
+  - human review
+  - conformance checking
+  - consistency checking
+  - simulation
+  - counterexample generation
+  - runtime monitoring
+
+- Example:
+  - simulate whether every path to `submit_claim` passes through `approval_valid`
+
+- Validation target:
+  - not only final output
+  - also process, norm, tool contract, memory update, and trace schema
+
+- Research question:
+  - how much validation can be automated without hiding responsibility?
+
+Notes:
+This slide should make validation a first-class research problem. Intermediate representations are useful only if they can be checked, corrected, and trusted relative to their purpose.
+
+Citations:
+LLM-Modulo position paper :contentReference[oaicite:17]{index=17}
+NIST AI RMF describes AI risk management across trustworthiness characteristics :contentReference[oaicite:18]{index=18}
+SKILLED-LLMs context pack :contentReference[oaicite:19]{index=19}
+
+---
+
+## Repair is normal, not exceptional
+
+- Agents operate under partial knowledge
+  - missing evidence, incomplete policies, uncertain tool outputs
+
+- Constraints change over time
+  - new law, new policy version, new organisational role
+
+- Environments are unstable
+  - APIs fail, users revise goals, logs contradict expectations
+
+- Repair should be designed into execution
+  - detect deviation
+  - explain failure
+  - revise representation
+  - ask human
+  - retry safely
+
+- Example:
+  - if approval is missing, the agent should request approval, not invent compliance
+
+Notes:
+Treat repair as a lifecycle property, not as error handling at the edge. This connects ReAct-style feedback loops, Reflexion-style self-correction, and ARC-AGI-3-style adaptation.
+
+Citations:
+ARC-AGI-3 requires exploration, internal model formation, planning, and action adaptation :contentReference[oaicite:20]{index=20}
+SKILLED-LLMs context pack :contentReference[oaicite:21]{index=21}
+
+---
+
+## Repair loop: concrete pattern
+
+- Runtime event:
+  - tool call fails, norm violation is detected, or user contests the decision
+
+- Diagnosis:
+  - wrong evidence?
+  - wrong rule?
+  - wrong process state?
+  - wrong tool contract?
+  - wrong user goal?
+
+- Repair:
+  - update evidence
+  - revise rule mapping
+  - change process path
+  - escalate to human
+  - block unsafe action
+
+- Trace:
+  - record the failure, diagnosis, repair action, and authorisation
+
+- Example:
+  - duplicate claim detected → stop submission → ask user whether to amend existing claim
+
+Notes:
+This slide makes repair operational. Repair is another representation transformation: traces and states are revised under constraints.
+
+Citations:
+SKILLED-LLMs context pack on traces, monitoring, and repairability :contentReference[oaicite:22]{index=22}
+
+---
+
+## Research agenda: neural-symbolic interfaces
+
+- Core open question:
+  - what is the right interface language between neural and symbolic components?
+
+- Components to connect:
+  - LLMs
+  - planners
+  - solvers
+  - verifiers
+  - knowledge graphs
+  - monitors
+  - humans
+
+- The interface must preserve semantics
+  - enough to support verification and accountability
+
+- It must also remain flexible
+  - enough to absorb messy human inputs
+
+- Example:
+  - convert “urgent exception” into a typed exception request with role, evidence, risk, and approval path
+
+Notes:
+This is the conceptual heart of the research agenda. The intermediate representation is the interface object. Too formal, and it fails to absorb messy inputs. Too loose, and it cannot govern action.
+
+Citations:
+LLM-Modulo position paper :contentReference[oaicite:23]{index=23}
+SKILLED-LLMs CFP on neuro-symbolic integration :contentReference[oaicite:24]{index=24}
+SKILLED-LLMs context pack :contentReference[oaicite:25]{index=25}
+
+---
+
+## Interface design trade-off
+
+- Too natural-language-like:
+  - flexible
+  - human-friendly
+  - but hard to verify
+
+- Too formal:
+  - checkable
+  - executable
+  - but brittle under ambiguity and change
+
+- Needed:
+  - hybrid interface artefacts
+
+- Examples:
+  - typed JSON plus natural-language rationale
+  - PDDL action plus informal evidence note
+  - rule assertion plus source citation
+  - process step plus exception explanation
+
+- Research target:
+  - representations that degrade gracefully from formal control to human review
+
+Notes:
+This slide should make the design tension crisp. The best interface may not be one language but a layered representation with formal core, provenance, confidence, and human-readable explanation.
+
+Citations:
+LLM-Modulo position paper :contentReference[oaicite:26]{index=26}
+Toolformer and ReAct as tool-use interface patterns
+SKILLED-LLMs context pack :contentReference[oaicite:27]{index=27}
+
+---
+
+## Research agenda: memory governance
+
+- Memory governance must address:
+  - provenance
+  - staleness
+  - contradiction
+  - forgetting
+  - privacy
+  - access rights
+  - long-horizon consistency
+
+- Memory is not a passive store
+  - it is a write–manage–read loop coupled with perception and action
+
+- Example:
+  - store that a user corrected a policy interpretation, but not private unrelated chat content
+
+- Research problem:
+  - how to make memory useful without making it uncontrolled institutional residue
+
+Notes:
+Use the memory survey language here. Persistent memory is what turns a stateless text generator into an adaptive agent, but it also creates privacy, security, and governance risk.
+
+Citations:
+Memory for Autonomous LLM Agents frames memory as write–manage–read across perception and action :contentReference[oaicite:28]{index=28}
+Memory security survey stresses persistence, statefulness, propagation, provenance, versioning, and policy-aware retention :contentReference[oaicite:29]{index=29}
+
+---
+
+## Memory governance: concrete failures
+
+- Stale memory
+  - old travel threshold applied after policy update
+
+- Contradictory memory
+  - user correction conflicts with extracted document rule
+
+- Privacy leakage
+  - private user-agent interaction becomes retrievable in later tasks
+
+- Over-retention
+  - sensitive documents remain after the process is closed
+
+- Propagation failure
+  - wrong memory contaminates future decisions and generated tools
+
+Notes:
+Make the memory slide concrete. Long-term memory is useful precisely because it persists; it is risky for the same reason.
+
+Citations:
+Privacy risks in LLM agent memory include extraction of private memory content :contentReference[oaicite:30]{index=30}
+Secure forgetting research frames agent unlearning as state, trajectory, and environment forgetting :contentReference[oaicite:31]{index=31}
+
+---
+
+## Research agenda: tool governance
+
+- Tool governance must address:
+  - discovery
+  - authorisation
+  - least privilege
+  - sandboxing
+  - monitoring
+  - revocation
+  - audit
+
+- Discovery:
+  - which tools exist, what they do, and when they may be used
+
+- Authorisation:
+  - who may call which tool, under which role and purpose
+
+- Revocation:
+  - remove or suspend capabilities when risk changes
+
+- Audit:
+  - reconstruct tool calls, arguments, evidence, outcomes, and approvals
+
+Notes:
+Position tool governance as action governance. Tool discovery alone is insufficient. Agents need governed capabilities, not just a list of APIs.
+
+Citations:
+Ricci and Ciortea on tools enabling LLM agents to observe and act :contentReference[oaicite:32]{index=32}
+WASP benchmark motivates secure evaluation of web agents against prompt injection :contentReference[oaicite:33]{index=33}
+NIST AI RMF trustworthiness characteristics include secure, resilient, accountable, and transparent AI :contentReference[oaicite:34]{index=34}
+
+---
+
+## Tool governance: concrete failures
+
+- Discovery failure
+  - the agent uses a legacy API because its description looked similar
+
+- Authorisation failure
+  - the agent sends a message using the user’s account without explicit delegation
+
+- Least-privilege failure
+  - a summarisation agent receives write access to the whole inbox
+
+- Sandboxing failure
+  - generated code runs against production data
+
+- Audit failure
+  - no one can reconstruct why the payment tool was called
+
+Notes:
+This slide is useful because it turns governance terms into engineering failures. It also reinforces that prompt instructions are not enough for enterprise settings.
+
+Citations:
+NIST AI RMF on managing AI risks across organisations :contentReference[oaicite:35]{index=35}
+Prompt-injection benchmarks for web agents :contentReference[oaicite:36]{index=36}
+
+---
+
+## Research agenda: benchmarks for governed agency
+
+- Future benchmarks should evaluate more than final task success
+
+- Additional evaluation targets:
+  - plan quality
+  - execution trace quality
+  - norm compliance
+  - repairability
+  - human intervention
+  - resource use
+  - reversibility of actions
+
+- Example task:
+  - complete a reimbursement workflow while logging evidence, respecting approval rules, and recovering from missing documents
+
+- Scoring should separate:
+  - task completion
+  - unsafe shortcuts
+  - unlogged actions
+  - unjustified decisions
+
+- Benchmark lesson:
+  - success without governance is not trustworthy agency
+
+Notes:
+This slide extends the benchmark discussion. Current benchmarks are improving, but most still reward task completion more than governability. The keynote argues for new benchmark dimensions.
+
+Citations:
+AgentBench, WebArena, GAIA, and SWE-bench benchmark agent capability but governance dimensions remain underdeveloped
+SKILLED-LLMs context pack :contentReference[oaicite:37]{index=37}
+
+---
+
+## ARC-AGI-3 and governed agency
+
+- ARC-AGI-3 pushes evaluation toward:
+  - interactive adaptation
+  - exploration
+  - goal inference
+  - model formation
+  - efficient action
+
+- This matters for governed agents
+  - the agent must discover what matters before acting
+
+- But governed agency needs additional questions:
+  - what model did it form?
+  - what evidence supports it?
+  - what actions were tried?
+  - what repairs occurred?
+  - what costs were incurred?
+
+- Example:
+  - in an unknown environment, do not only score solved/unsolved; score exploration efficiency and recoverability
+
+Notes:
+ARC-AGI-3 is a useful bridge between abstraction and agency. The next step for governed-agency evaluation is to make internal models, traces, and repairs part of the score.
+
+Citations:
+ARC-AGI-3 paper reports interactive environments requiring exploration, goal inference, model formation, planning, and action execution :contentReference[oaicite:38]{index=38}
+
+---
+
+## Benchmark dimensions for governed agency
+
+- **Representational adequacy**
+  - did the agent build the right task model?
+
+- **Norm compliance**
+  - did it respect permissions, prohibitions, and obligations?
+
+- **Traceability**
+  - can we reconstruct evidence, decisions, and tool calls?
+
+- **Repairability**
+  - can the system recover from wrong assumptions or failed actions?
+
+- **Human governability**
+  - can a human inspect, correct, pause, override, or contest the trajectory?
+
+Notes:
+This slide gives a candidate evaluation checklist. It may be useful later as a research-agenda summary.
+
+Citations:
+NIST AI RMF trustworthy characteristics include accountability, transparency, explainability, and risk management :contentReference[oaicite:39]{index=39}
+SKILLED-LLMs context pack :contentReference[oaicite:40]{index=40}
+
+---
+
+## Closing: representation before autonomy
+
+- LLMs are good at entering messy human worlds
+  - language, ambiguity, exceptions, examples, tacit procedures
+
+- Governed action requires explicit intermediate representations
+  - goals, plans, norms, tool contracts, memory states, traces
+
+- Trustworthy LLM agents should not be black-box autonomous systems
+
+- They should be mediated systems
+  - fluent generation on one side
+  - governed action on the other
+
+- The scientific object is the representation in the middle
+
+Notes:
+Return to the core thesis almost verbatim. This should sound like the talk’s conclusion, not a new idea.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:41]{index=41}
+
+---
+
+## Final slogan
+
+- **Representation before autonomy**
+  - do not delegate before commitments are explicit
+
+- **Plans before actions**
+  - do not execute plan-shaped text as if it were a plan
+
+- **Norms before delegation**
+  - do not give tools without permissions and obligations
+
+- **Traces before trust**
+  - do not trust what cannot be reconstructed
+
+- **Verification before deployment**
+  - do not deploy what cannot be checked
+
+Notes:
+This should be the final slide. Keep it memorable and compact. It directly matches the workshop’s intersection: LLMs, KR, reasoning, ethics, statistics, neuro-symbolic systems, and evaluation.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:42]{index=42}
+NIST AI RMF :contentReference[oaicite:43]{index=43}
+EU AI Act risk-based framework and high-risk guidance :contentReference[oaicite:44]{index=44}
+
+---
+
+# References
+
+---
+
+https://api.pageplace.de/preview/DT0400.9781292401171_A41586057/preview-9781292401171_A41586057.pdf?utm_source=chatgpt.com "Artificial Intelligence: A Modern Approach, Global Edition, 4ed"
+https://arcprize.org/arc-agi/3/leaderboard "ARC-AGI-3 Leaderboard"
+https://arcprize.org/competitions/2026 "ARC Prize 2026"
+https://arcprize.org/leaderboard "ARC Prize - Leaderboard"
+https://arxiv.org/abs/2202.02574?utm_source=chatgpt.com "Governance of Autonomous Agents on the Web: Challenges and Opportunities"
+https://arxiv.org/abs/2210.03629?utm_source=chatgpt.com "ReAct: Synergizing Reasoning and Acting in Language Models"
+https://arxiv.org/abs/2302.04761?utm_source=chatgpt.com "Toolformer: Language Models Can Teach Themselves to Use Tools"
+https://arxiv.org/abs/2302.06706?utm_source=chatgpt.com "On the Planning Abilities of Large Language Models (A Critical Investigation with a Proposed Benchmark)"
+https://arxiv.org/abs/2304.03442?utm_source=chatgpt.com "Generative Agents: Interactive Simulacra of Human Behavior"
+https://arxiv.org/abs/2307.13854?utm_source=chatgpt.com "WebArena: A Realistic Web Environment for Building Autonomous Agents"
+https://arxiv.org/abs/2308.03688?utm_source=chatgpt.com "AgentBench: Evaluating LLMs as Agents"
+https://arxiv.org/abs/2310.06770?utm_source=chatgpt.com "SWE-bench: Can Language Models Resolve Real-World GitHub Issues?"
+https://arxiv.org/abs/2310.12815?utm_source=chatgpt.com "Formalizing and Benchmarking Prompt Injection Attacks and Defenses"
+https://arxiv.org/abs/2311.12983?utm_source=chatgpt.com "[2311.12983] GAIA: a benchmark for General AI Assistants - arXiv.org"
+https://arxiv.org/abs/2311.12983?utm_source=chatgpt.com "GAIA: a benchmark for General AI Assistants"
+https://arxiv.org/abs/2402.01817?utm_source=chatgpt.com "LLMs Can't Plan, But Can Help Planning in LLM-Modulo Frameworks"
+https://arxiv.org/abs/2508.13678?utm_source=chatgpt.com "Neuro-Symbolic Artificial Intelligence: Towards Improving the Reasoning Abilities of Large Language Models"
+https://arxiv.org/abs/2601.10904?utm_source=chatgpt.com "ARC Prize 2025: Technical Report"
+https://arxiv.org/abs/2602.04449?utm_source=chatgpt.com "What's in a Benchmark? The Case of SWE-Bench in Automated Program Repair"
+https://arxiv.org/abs/2603.07670?utm_source=chatgpt.com "Memory for Autonomous LLM Agents:Mechanisms, Evaluation, and Emerging Frontiers"
+https://benchlm.ai/benchmarks/gaia?utm_source=chatgpt.com "GAIA Benchmark 2026: 27 tracked score rows | BenchLM.ai"
+https://benchlm.ai/benchmarks/sweVerified?utm_source=chatgpt.com "SWE-bench Verified Benchmark 2026: 57 LLM scores"
+https://eur-lex.europa.eu/EN/legal-content/summary/rules-for-trustworthy-artificial-intelligence-in-the-eu.html?utm_source=chatgpt.com "Rules for trustworthy artificial intelligence in the EU - EUR-Lex"
+https://gaia-benchmark-leaderboard.hf.space/?utm_source=chatgpt.com "gaia-benchmark-leaderboard.hf.space - Gradio"
+https://github.com/THUDM/AgentBench?utm_source=chatgpt.com "GitHub - THUDM/AgentBench: A Comprehensive Benchmark to Evaluate LLMs ..."
+https://leaderboard.steel.dev/leaderboards/gaia/?utm_source=chatgpt.com "GAIA Leaderboard 2026: Latest AI Assistant Scores | Steel.dev"
+https://leaderboard.steel.dev/leaderboards/webarena/?utm_source=chatgpt.com "WebArena Leaderboard 2026: Latest Browser Agent Scores | Steel.dev"
+https://leaderboard.steel.dev/results "AI Agent Benchmark Results: All 13 Leaderboards in One Index | Steel.dev"
+https://link.springer.com/article/10.1007/s13347-025-00858-9?utm_source=chatgpt.com "AI as Agency without Intelligence: On Artificial Intelligence as a New ..."
+https://matt.colorado.edu/teaching/highcog/readings/s96.pdf?utm_source=chatgpt.com "The Empirical Case for Two Systems of Reasoning"
+https://researchportal.plymouth.ac.uk/en/publications/dual-process-theories-of-higher-cognition-advancing-the-debate/?utm_source=chatgpt.com "Dual-Process Theories of Higher Cognition: Advancing the Debate"
+https://www.cs.cmu.edu/~motionplanning/papers/sbp_papers/integrated1/woodridge_intelligent_agents.pdf?utm_source=chatgpt.com "Intelligent Agents: Theory and Practice"
+https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-ai-rmf-10?utm_source=chatgpt.com "Artificial Intelligence Risk Management Framework (AI RMF 1.0)"
+https://www.swebench.com/?utm_source=chatgpt.com "SWE-bench Leaderboards"
+https://www.swebench.com/verified.html?utm_source=chatgpt.com "SWE-bench Verified"
