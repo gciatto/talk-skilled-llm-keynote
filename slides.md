@@ -1,3 +1,10 @@
+# From Language to Agency: Intermediate Representations for Trustworthy LLM Agents
+## Why plans, norms, tools, memory, and traces matter more than bigger prompts and larger models
+
+Giovanni Ciatto, University of Bologna, Italy
+
+---
+
 # Opening and positioning
 
 ---
@@ -2583,3 +2590,579 @@ LLM-Modulo position paper :contentReference[oaicite:53]{index=53}
 # Benchmarks and stress tests
 
 ---
+
+## Why ARC-AGI matters here
+
+* ARC-style benchmarks shift attention away from accumulated task familiarity
+
+* They stress:
+
+  * **abstraction**
+  * **novelty**
+  * **few-shot rule induction**
+  * **skill-acquisition efficiency**
+
+* The relevant question is not:
+
+  * “is ARC-AGI the definitive intelligence test?”
+
+* The relevant question is:
+
+  * “what representation must the system construct to solve a novel task?”
+
+* For this keynote, ARC-AGI is a stress test for **representation formation under novelty**, not a verdict on AGI
+
+Notes:
+Use ARC as an intuition pump, not as a benchmark fetish. The useful point is that many tasks are simple for humans because we rapidly infer objects, relations, transformations, symmetries, and goals. LLMs and LLM agents often struggle when these representations are not already available in linguistic or statistical form. ARC-AGI-2 describes ARC as targeting fluid intelligence through novel tasks requiring minimal prior knowledge, while ARC-AGI-3 extends this toward interactive agentic settings
+
+Citations:
+ARC-AGI-2
+ARC-AGI-3
+SKILLED-LLMs context pack
+
+---
+
+## ARC-AGI-1: figurative task examples
+
+* Example pattern: **move the red object to touch the blue object**
+
+  * humans see objects, contact, and spatial relation
+  * a model sees coloured cells unless it constructs object-level structure
+
+* Example pattern: **complete a symmetry**
+
+  * humans infer mirror axis and missing counterpart
+  * a model may overfit local pixel regularities
+
+* Example pattern: **count objects and encode the number**
+
+  * humans abstract from shape to cardinality
+  * a model must separate object identity from surface appearance
+
+* Example pattern: **apply the same transformation to a new grid**
+
+  * humans infer a latent rule from few examples
+  * the solver must generalise beyond the shown cells
+
+* Takeaway:
+
+  * success requires a compact representation of objects, relations, and transformations
+
+[Image placeholder: schematic 3×3 or 5×5 coloured grids showing input-output examples: move object, mirror object, count objects, transform shape]
+
+Notes:
+Do not use real ARC tasks unless licensing and attribution are checked. Figurative examples are enough for the keynote. The point is to show why humans see abstractions where a pure pattern matcher sees grids. ARC-AGI-1 tasks require inferring transformation rules from a handful of demonstrations, using simple priors such as objectness, geometry, and counting
+
+Citations:
+ARC-AGI-3 paper’s ARC-AGI-1 summary
+ARC Prize leaderboard and benchmark overview ([ARC Prize][1])
+
+---
+
+## ARC-AGI-1: leaderboard reading
+
+* Historical ARC-AGI-1 progress was slow for several years
+
+  * the 2020 Kaggle winner reached about **20%** on the private set
+
+* In 2024, test-time adaptation changed the picture
+
+  * the winning eligible solution reached **53.5%**
+  * the best reported non-prize score reached **55.5%**
+
+* Human performance is much higher
+
+  * ARC-AGI papers frame the tasks as feasible for regular humans without special training
+
+* Interpretation:
+
+  * the gap is not just about more examples
+  * it is about forming the right abstraction quickly
+
+* Key lesson for LLM agents:
+
+  * a system needs mechanisms for building task-specific representations, not only retrieving familiar patterns
+
+Notes:
+Avoid saying “LLMs cannot do abstraction”. The better claim is narrower: ARC shows that robust abstraction from very few examples remains difficult, especially when the task is novel and intentionally resists memorisation. Current public ARC leaderboards are dynamic and include different cost regimes, model classes, and reasoning budgets, so use them as trend indicators rather than absolute truth ([ARC Prize][1])
+
+Citations:
+ARC-AGI-2 history and scores
+ARC Prize leaderboard methodology ([ARC Prize][1])
+
+---
+
+## ARC-AGI-2: static abstraction under pressure
+
+* ARC-AGI-2 preserves the grid-based input-output format
+
+* It increases pressure through:
+
+  * deeper multi-step transformations
+  * compositional rules
+  * more difficult symbolic interpretation
+  * higher cognitive complexity
+
+* It remains static:
+
+  * observe examples
+  * infer rule
+  * produce test output
+
+* Its relevance here:
+
+  * the system must infer a compact task representation
+  * not merely complete a familiar pattern
+
+* The right question:
+
+  * what latent model of objects, rules, and transformations is being constructed?
+
+Notes:
+ARC-AGI-2 is useful because it stresses abstraction without adding web browsing, natural language, or tool use. That makes failures easier to interpret: the bottleneck is closer to representation formation than to external-tool orchestration. The ARC-AGI-2 paper says it preserves the input-output pair format while increasing task complexity and granularity
+
+Citations:
+ARC-AGI-2
+ARC-AGI-3
+
+---
+
+## ARC-AGI-2: figurative task examples
+
+* Example pattern: **transform objects by role, not colour**
+
+  * “the largest object moves”, regardless of colour
+  * requires role abstraction, not pixel matching
+
+* Example pattern: **compose two rules**
+
+  * first align objects, then recolour boundary cells
+  * requires sequencing transformations
+
+* Example pattern: **infer hidden grouping**
+
+  * objects belong together by shape, spacing, or containment
+  * requires constructing relations not explicitly labelled
+
+* Example pattern: **apply exception-sensitive rule**
+
+  * transform all objects except those touching the border
+  * requires conditionals and negative cases
+
+* Takeaway:
+
+  * the representation must encode objects, roles, relations, rules, and exceptions
+
+[Image placeholder: stylised ARC-AGI-2-like grids showing compositional transformation and exception handling]
+
+Notes:
+Use words such as “figurative” or “ARC-style” to avoid implying these are exact benchmark instances. The point is the kind of representation demanded: object segmentation, relational structure, rule composition, and exception handling.
+
+Citations:
+ARC-AGI-2
+
+---
+
+## ARC-AGI-2: leaderboard reading
+
+* ARC Prize 2025 targeted ARC-AGI-2
+
+  * **1,455 teams**
+  * **15,154 entries**
+  * top Kaggle score: **24%** on the private evaluation set
+
+* The technical report identifies a recurring pattern:
+
+  * iterative refinement loops
+  * program synthesis
+  * per-task adaptation
+  * feedback-guided search
+
+* Current public leaderboard snapshots are volatile
+
+  * recent trackers report much higher model-system scores
+  * methodology, cost, and scaffold assumptions must be checked
+
+* Interpretation:
+
+  * progress increasingly comes from **systems**, not raw next-token prediction
+
+* Key lesson:
+
+  * representational scaffolding is not a hack; it is part of the capability
+
+Notes:
+This slide should avoid both triumphalism and defeatism. The 2025 official competition result shows ARC-AGI-2 remained hard under competition constraints. Later leaderboard snapshots can be useful but should be treated cautiously because they may include different reasoning budgets, scaffolds, partial testing, or proprietary systems. ARC Prize’s current leaderboard explicitly emphasises score-cost efficiency and distinguishes base LLMs, reasoning systems, and Kaggle systems ([ARC Prize][1])
+
+Citations:
+ARC Prize 2025 technical report ([arXiv][2])
+ARC Prize leaderboard methodology ([ARC Prize][1])
+
+---
+
+## ARC-AGI-3: from answers to action
+
+* ARC-AGI-3 shifts from static answer production to **interactive environments**
+
+* The agent must:
+
+  * explore
+  * infer goals
+  * build an internal model of dynamics
+  * plan action sequences
+  * execute and adapt
+
+* This is directly relevant to agentic AI
+
+  * the system must discover what matters before acting effectively
+
+* It evaluates more than rule completion
+
+  * it tests representation formation during interaction
+
+* Key question:
+
+  * how does the agent build and revise its model of the environment?
+
+Notes:
+This is the closest ARC slide to the keynote’s agentic-AI topic. ARC-AGI-3 introduces environments where the system must act, observe consequences, infer goals, and plan. That mirrors the agentic loop: perception, model update, deliberation, actuation, feedback. The paper reports that ARC-AGI-3 studies agentic intelligence in novel turn-based environments requiring exploration, goal inference, internal models of dynamics, and effective action planning
+
+Citations:
+ARC-AGI-3
+ARC Prize 2026 competition page ([ARC Prize][3])
+
+---
+
+## ARC-AGI-3: figurative task examples
+
+* Example environment: **unknown buttons and doors**
+
+  * try actions, observe effects, infer which button opens which door
+
+* Example environment: **hidden goal**
+
+  * discover that arranging objects, not collecting them, yields reward
+
+* Example environment: **stateful dynamics**
+
+  * an action changes the board differently depending on previous actions
+
+* Example environment: **planning under limited trials**
+
+  * exploration is costly, so random trial-and-error fails
+
+* Takeaway:
+
+  * the agent needs a model of action effects, goals, state, and uncertainty
+
+[Image placeholder: turn-based mini-grid environment with avatar, objects, doors, buttons, and action-effect arrows]
+
+Notes:
+Again, keep these as figurative examples. The key distinction from ARC-AGI-2 is interaction. A static solver can search over outputs; an agent must search over actions, observe transitions, and update its model.
+
+Citations:
+ARC-AGI-3
+
+---
+
+## ARC-AGI-3: leaderboard reading
+
+* ARC-AGI-3 is new and leaderboard interpretation is especially unstable
+
+* The ARC-AGI-3 paper reports:
+
+  * humans solve **100%** of tested environments
+  * frontier AI systems were below **1%** as of March 2026
+
+* Some current public leaderboard pages now show non-zero frontier scores
+
+  * the official ARC leaderboard emphasises cost-performance efficiency
+  * the ARC-AGI-3 page also tracks human action efficiency separately
+
+* Interpretation:
+
+  * the gap points to goal-directed exploration and model formation, not just answer accuracy
+
+* Key lesson:
+
+  * agentic benchmarks expose the need for explicit internal representations of dynamics, goals, and plans
+
+Notes:
+Do not overstate the exact current percentage unless using a captured leaderboard snapshot. The robust point is structural: ARC-AGI-3 turns abstraction into an interactive control problem. Even when scores improve, the relevant scientific issue remains the same: how does the system infer an environment model and use it to govern action?
+
+Citations:
+ARC-AGI-3 paper
+Official ARC leaderboard explanation ([ARC Prize][1])
+ARC-AGI-3 human leaderboard page ([ARC Prize][4])
+
+---
+
+## Agent benchmarks point to the same bottleneck
+
+* ARC stresses abstraction under novelty
+
+* Agent benchmarks stress the same issue in messy environments:
+
+  * web pages
+  * files
+  * software repositories
+  * multimodal inputs
+  * tool chains
+  * long-horizon tasks
+
+* The recurring bottleneck:
+
+  * not just language
+  * not just knowledge
+  * but building and maintaining the right task representation
+
+* Practical formulation:
+
+  * what is the current state?
+  * what is the goal?
+  * what actions exist?
+  * what has already been tried?
+  * what counts as success?
+
+* Takeaway:
+
+  * agent failure is often representation failure
+
+Notes:
+Use this slide as the bridge from ARC to more realistic agent benchmarks. ARC isolates abstraction; GAIA, WebArena, AgentBench, and SWE-bench add real-world messiness. The same bottleneck reappears under different names.
+
+Citations:
+GAIA ([arXiv][5])
+WebArena ([arXiv][6])
+AgentBench ([arXiv][7])
+SWE-bench Verified ([swebench.com][8])
+
+---
+
+## GAIA: simple for humans, hard for assistants
+
+* GAIA evaluates general AI assistants on real-world questions requiring:
+
+  * reasoning
+  * multimodality
+  * web browsing
+  * file handling
+  * tool use
+
+* The original paper reports a sharp human-AI gap:
+
+  * humans: **92%**
+  * GPT-4 with plugins: **15%**
+
+* Figurative example:
+
+  * “Find the author of the paper cited in this PDF, then compute the date difference to an event on a webpage”
+
+* Why it is hard:
+
+  * the agent must coordinate evidence across tools, files, pages, and intermediate facts
+
+* Current leaderboard caveat:
+
+  * top systems are usually orchestrated agents or ensembles, not raw model calls
+
+Notes:
+GAIA is a good example because many questions are not conceptually difficult for humans. The difficulty is operational: find the right sources, combine them, keep state, avoid distractors, and output the exact answer. That is representational coordination.
+
+Citations:
+GAIA paper ([arXiv][5])
+GAIA leaderboard description ([gaia-benchmark-leaderboard.hf.space][9])
+GAIA 2026 leaderboard note ([leaderboard.steel.dev][10])
+
+---
+
+## WebArena: acting on realistic websites
+
+* WebArena evaluates autonomous agents in realistic, reproducible web environments
+
+* Domains include:
+
+  * e-commerce
+  * forum discussion
+  * collaborative software development
+  * content management
+  * maps and knowledge resources
+
+* The original paper reports:
+
+  * best GPT-4-based agent: **14.41%**
+  * human performance: **78.24%**
+
+* Figurative example:
+
+  * “find a product meeting constraints, compare reviews, add it to cart, and update a forum post”
+
+* Bottleneck:
+
+  * long-horizon interaction, state tracking, functional correctness, and recovery from web failures
+
+Notes:
+WebArena is useful because it makes “action” concrete. The agent must not merely answer; it must complete a web task. This requires keeping a representation of page state, task progress, constraints, and success conditions.
+
+Citations:
+WebArena paper ([arXiv][6])
+WebArena current leaderboard hub ([leaderboard.steel.dev][11])
+
+---
+
+## AgentBench: evaluating LLMs as agents
+
+* AgentBench evaluates LLM-as-agent behaviour across multiple interactive environments
+
+* It focuses on:
+
+  * multi-turn interaction
+  * reasoning
+  * decision-making
+  * instruction following
+  * environment feedback
+
+* The paper identifies major obstacles:
+
+  * poor long-term reasoning
+  * poor decision-making
+  * poor instruction following
+
+* Figurative example:
+
+  * an agent must operate a database, terminal, game, or web-shop over multiple steps
+
+* Bottleneck:
+
+  * the agent must preserve goals, constraints, observations, and action history across turns
+
+Notes:
+AgentBench is useful because it targets the agent loop directly. It shows that strong language models still fail when the task requires persistent control across environments.
+
+Citations:
+AgentBench paper ([arXiv][7])
+AgentBench GitHub description ([GitHub][12])
+
+---
+
+## SWE-bench: software engineering as environment interaction
+
+* SWE-bench evaluates agents on real software issues from GitHub repositories
+
+* SWE-bench Verified is a human-filtered subset of **500** software-engineering problems
+
+* The agent must:
+
+  * understand issue text
+  * inspect codebase context
+  * modify multiple files
+  * run tests
+  * repair failures
+  * produce a valid patch
+
+* Figurative example:
+
+  * “fix a bug in date parsing without breaking existing timezone tests”
+
+* Bottleneck:
+
+  * codebase state, dependency structure, test feedback, and patch validity must be represented over time
+
+Notes:
+SWE-bench is not merely a coding benchmark. It is an agentic environment benchmark: read issue, inspect repository, decide where to edit, run tests, interpret failures, and iterate. This is representation maintenance under technical constraints.
+
+Citations:
+SWE-bench Verified official page ([swebench.com][8])
+SWE-bench leaderboards ([swebench.com][13])
+SWE-bench leaderboard analysis ([arXiv][14])
+
+---
+
+## Current leaderboard snapshots: read cautiously
+
+* Public leaderboards are useful but volatile
+
+  * tasks, splits, scaffolds, costs, and reporting conventions differ
+
+* Recent public trackers report high top scores on some agent benchmarks
+
+  * SWE-bench Verified trackers report top systems around the mid-90% range
+  * GAIA snapshots remain much lower, with top tracked systems around the low-50% range
+
+* These scores are not directly comparable across benchmarks
+
+  * each benchmark has its own task set, metric, evaluator, and scope
+
+* The important trend:
+
+  * top results increasingly come from **systems with scaffolding**
+  * not from raw model calls alone
+
+* Key lesson:
+
+  * leaderboards measure architectures, not just models
+
+Notes:
+Use this slide to inoculate the talk against benchmark absolutism. The point is not who is rank 1 this week. The point is that modern benchmark performance depends on orchestration, tools, memory, verification, and environment handling.
+
+Citations:
+Steel.dev benchmark index caveat ([leaderboard.steel.dev][15])
+SWE-bench Verified current tracker ([BenchLM][16])
+GAIA current tracker ([BenchLM][17])
+
+---
+
+## Benchmark takeaway: representation is the bottleneck
+
+* ARC-AGI:
+
+  * infer compact representations from novel abstract tasks
+
+* GAIA:
+
+  * coordinate facts, files, tools, and web evidence
+
+* WebArena:
+
+  * maintain task state across realistic web actions
+
+* AgentBench:
+
+  * preserve goals and instructions through multi-turn environments
+
+* SWE-bench:
+
+  * build and revise a working model of a codebase
+
+* Common bottleneck:
+
+  * agents fail when they cannot construct, maintain, verify, and revise the right intermediate representation
+
+Notes:
+This is the punchline. The benchmarks differ, but the failure mode rhymes. The agent needs task representations, state representations, action representations, evidence representations, and success representations. That is the bridge back to the central thesis.
+
+Citations:
+SKILLED-LLMs context pack
+ARC Prize leaderboard explanation ([ARC Prize][1])
+GAIA ([arXiv][5])
+WebArena ([arXiv][6])
+AgentBench ([arXiv][7])
+SWE-bench Verified ([swebench.com][8])
+
+[1]: https://arcprize.org/leaderboard "ARC Prize - Leaderboard"
+[2]: https://arxiv.org/abs/2601.10904?utm_source=chatgpt.com "ARC Prize 2025: Technical Report"
+[3]: https://arcprize.org/competitions/2026 "ARC Prize 2026"
+[4]: https://arcprize.org/arc-agi/3/leaderboard "ARC-AGI-3 Leaderboard"
+[5]: https://arxiv.org/abs/2311.12983?utm_source=chatgpt.com "GAIA: a benchmark for General AI Assistants"
+[6]: https://arxiv.org/abs/2307.13854?utm_source=chatgpt.com "WebArena: A Realistic Web Environment for Building Autonomous Agents"
+[7]: https://arxiv.org/abs/2308.03688?utm_source=chatgpt.com "AgentBench: Evaluating LLMs as Agents"
+[8]: https://www.swebench.com/verified.html?utm_source=chatgpt.com "SWE-bench Verified"
+[9]: https://gaia-benchmark-leaderboard.hf.space/?utm_source=chatgpt.com "gaia-benchmark-leaderboard.hf.space - Gradio"
+[10]: https://leaderboard.steel.dev/leaderboards/gaia/?utm_source=chatgpt.com "GAIA Leaderboard 2026: Latest AI Assistant Scores | Steel.dev"
+[11]: https://leaderboard.steel.dev/leaderboards/webarena/?utm_source=chatgpt.com "WebArena Leaderboard 2026: Latest Browser Agent Scores | Steel.dev"
+[12]: https://github.com/THUDM/AgentBench?utm_source=chatgpt.com "GitHub - THUDM/AgentBench: A Comprehensive Benchmark to Evaluate LLMs ..."
+[13]: https://www.swebench.com/?utm_source=chatgpt.com "SWE-bench Leaderboards"
+[14]: https://arxiv.org/abs/2602.04449?utm_source=chatgpt.com "What's in a Benchmark? The Case of SWE-Bench in Automated Program Repair"
+[15]: https://leaderboard.steel.dev/results "AI Agent Benchmark Results: All 13 Leaderboards in One Index | Steel.dev"
+[16]: https://benchlm.ai/benchmarks/sweVerified?utm_source=chatgpt.com "SWE-bench Verified Benchmark 2026: 57 LLM scores"
+[17]: https://benchlm.ai/benchmarks/gaia?utm_source=chatgpt.com "GAIA Benchmark 2026: 27 tracked score rows | BenchLM.ai"

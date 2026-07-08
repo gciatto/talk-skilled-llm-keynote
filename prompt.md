@@ -284,6 +284,11 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
   * The point is not to treat ARC-AGI as a definitive intelligence test, but to use it as a stress test for representation formation under novelty
 
     * Citations: SKILLED-LLMs context pack; ARC-AGI-2
+
+  * bring figurative examples of ARC-AGI 1 tasks, explain why they are easy for humans and hard for LLMs, and how they require abstraction
+
+    * also report leaderboard from ARC-AGI-1, and explain the gap between humans and LLMs
+
 * **Slide 20 — ARC-AGI-2: static abstraction under pressure**
 
   * ARC-AGI-2 preserves the grid-based input-output format but raises the difficulty through more complex, novel, and compositional tasks
@@ -295,6 +300,11 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
   * The slide should avoid triumphalist or defeatist readings and instead ask what kind of representation the system must construct to solve the task
 
     * Citations: ARC-AGI-2; SKILLED-LLMs context pack
+
+  * bring figurative examples of ARC-AGI 2 tasks, explain why they are easy for humans and hard for LLMs, and how they require abstraction
+
+    * also report leaderboard from ARC-AGI-2, and explain the gap between humans and LLMs
+
 * **Slide 21 — ARC-AGI-3: from answers to action**
 
   * ARC-AGI-3 shifts from static input-output reasoning to interactive environments requiring exploration, model formation, goal inference, planning, and execution
@@ -306,6 +316,12 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
   * The reported gap between humans and frontier systems should be used to motivate better representational scaffolding, not to make broad claims about AGI
 
     * Citations: ARC-AGI-3; SKILLED-LLMs context pack
+
+  * bring figurative examples of ARC-AGI 3 tasks, explain why they are easy for humans and hard for LLMs, and how they require abstraction
+
+    * also report leaderboard from ARC-AGI-3, and explain the gap between humans and LLMs
+
+
 * **Slide 22 — Agent benchmarks point to the same bottleneck**
 
   * GAIA stresses reasoning, multimodality, web browsing, and tool use in questions that are relatively simple for humans but difficult for AI assistants
@@ -320,6 +336,8 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
   * SWE-bench shows that realistic software-engineering tasks require codebase understanding, long-context coordination, environment interaction, and multi-file reasoning
 
     * Citations: SWE-bench ([arXiv][17])
+
+  * for all of these report figurative examples and leaderboards
 
 ## **5. Planning, acting, and the limits of prompt-centric agency**
 
@@ -339,6 +357,7 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
   * Tool use increases capability by allowing the agent to delegate to specialised external systems
 
     * Citations: Toolformer; ReAct ([arXiv][3])
+
   * Tool use also increases exposure because actions can affect databases, files, users, services, robots, workflows, and institutional states
 
     * Citations: WebArena; governance of autonomous Web agents; prompt-injection benchmarking ([arXiv][8])
