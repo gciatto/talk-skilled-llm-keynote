@@ -344,25 +344,28 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
 * **Slide 23 — Planning is not fluent plan-shaped text**
 
   * A plan should be treated as an explicit object with states, subgoals, preconditions, effects, ordering constraints, contingencies, and repair points
-
+    * explain why by exemplifying what happens when this is not the case
     * Citations: Russell & Norvig; PlanBench; LLM-Modulo ([api.pageplace.de][4])
   * PlanBench-style results are useful because they warn against treating LLMs as complete autonomous planners
-
+    * explain and motivate the warning by quoting planbench
     * Citations: PlanBench ([arXiv][12])
   * LLMs may be more credible as translators, critics, heuristic sources, or interfaces to planners than as the sole planning substrate
-
+    * briefly exemplify all such situations
     * Citations: PlanBench; LLM-Modulo ([arXiv][12])
+
 * **Slide 24 — Tool use requires governance**
 
   * Tool use increases capability by allowing the agent to delegate to specialised external systems
-
+    * consider for instance ARC-AGI-3 where agents may rely on classical planning, search, or constraint-solving systems to solve subproblems
     * Citations: Toolformer; ReAct ([arXiv][3])
 
   * Tool use also increases exposure because actions can affect databases, files, users, services, robots, workflows, and institutional states
-
+    * better would be to plan before acting, because some actions may not be reversible, safe, or norm-compliant
+      * better would be to track actions and their effects, so that they can be audited, contested, and repaired
     * Citations: WebArena; governance of autonomous Web agents; prompt-injection benchmarking ([arXiv][8])
-  * The relevant question is not only which tool to call, but whether the call is authorised, safe, reversible, logged, and norm-compliant
 
+  * The relevant question is not only which tool to call, but whether the call is authorised, safe, reversible, logged, and norm-compliant
+    * discuss/exemplify what are the technical implications for all such properties
     * Citations: governance of autonomous Web agents; NIST AI RMF; EU AI Act summary ([arXiv][10])
 
 ## **6. The missing middle: intermediate representations**
