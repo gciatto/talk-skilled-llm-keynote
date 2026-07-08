@@ -3736,6 +3736,847 @@ LLM-Modulo :contentReference[oaicite:43]{index=43}
 PlanBench :contentReference[oaicite:44]{index=44}
 NIST AI RMF :contentReference[oaicite:45]{index=45}
 
+---
+
+# The missing middle: intermediate representations
+
+---
+
+## What do people exploit AI for?
+
+- AI is often used for **data processing**
+  - extract, classify, summarise, translate, transform, generate
+
+- Useful CS metaphor:
+  - AI as a **function**
+  - described in natural language
+  - applied to input data
+  - producing output data
+
+- Example:
+  - input: invoice PDF
+  - instruction: “extract vendor, amount, date, VAT, and category”
+  - output: structured JSON
+
+- This is the dominant chatbot pattern:
+  - text in
+  - result out
+
+- But agentic AI pushes beyond this pattern
+
+Notes:
+Start from the simplest use of AI. Function metaphor is useful because it is familiar and precise: input-output transformation. Then state that agentic AI becomes more complex because outputs may become actions, tools, or software artefacts.
+
+Citations:
+GenAI slides on content generation and data transformation :contentReference[oaicite:0]{index=0}
+
+---
+
+## AI as a procedure
+
+- AI is also used to **act on behalf of humans**
+
+- Useful CS metaphor:
+  - AI as a **procedure**
+  - described in natural language
+  - applied to input data
+  - producing effects in an environment
+
+- Examples:
+  - send an email
+  - schedule a meeting
+  - book a flight
+  - submit a reimbursement claim
+  - update a database record
+
+- The risk changes:
+  - wrong output is one thing
+  - wrong state change is another
+
+Notes:
+Make the distinction between function and procedure explicit. A function gives you a result. A procedure changes something. This is where planning, authorisation, reversibility, and traces become necessary.
+
+Citations:
+M11 Agents & Tools on tools enabling observation and action :contentReference[oaicite:1]{index=1}
+Ricci and Ciortea on tools enabling LLM agents to observe and act :contentReference[oaicite:2]{index=2}
+
+---
+
+## AI as a meta-programmer
+
+- AI is increasingly used to **generate software**
+
+- Useful CS metaphor:
+  - AI as a **meta-programmer**
+  - instructed via natural language
+  - producing automation software
+
+- This is especially interesting because software can make workflows:
+  - reproducible
+  - inspectable
+  - testable
+  - editable
+  - deployable
+
+- Example:
+  - generate a reimbursement workflow app from policy documents, forms, approval rules, and user stories
+
+- The generated system may itself process data or act on behalf of users
+
+Notes:
+This slide introduces the most important case for intermediate representations. Software generation can turn vague organisational knowledge into executable artefacts. But if the path is prompt-to-code, governance is weak.
+
+Citations:
+GenAI slides on code generation :contentReference[oaicite:3]{index=3}
+SKILLED-LLMs context pack on process formalisation and governable action :contentReference[oaicite:4]{index=4}
+
+---
+
+## Generated software can increase autonomy
+
+- Software generation can be used by human developers
+  - produce code, tests, documentation, scripts, APIs
+
+- It can also be used by agents themselves
+  - create missing tools
+  - adapt workflows
+  - automate repeated subtasks
+  - repair brittle procedures
+
+- This can increase agent autonomy
+  - the agent does not only select tools
+  - it may craft new tools needed for its goals
+
+- Example:
+  - an agent writes a parser for a new receipt format, tests it, then uses it in future claims
+
+- Governance problem:
+  - self-created tools must be inspected before becoming executable capabilities
+
+Notes:
+This slide should make the autonomy point explicit. If agents can generate tools, they can expand their action repertoire. That is powerful, but it must be governed more strictly than ordinary text generation.
+
+Citations:
+Voyager-style skill acquisition
+SKILLED-LLMs context pack on tools, memory, traces, and governed autonomy :contentReference[oaicite:5]{index=5}
+
+---
+
+## Why text-in / result-out is not enough
+
+- Prompt-centric pattern:
+  - user intention
+  - model generation
+  - final result or action
+
+- Missing in the middle:
+  - requirements
+  - assumptions
+  - process structure
+  - action semantics
+  - tests
+  - norms
+  - traces
+
+- This is fragile for software generation
+  - generated code may work on examples but violate hidden requirements
+
+- It is worse for agentic action
+  - generated procedures may change institutional state without explicit commitments
+
+- Intermediate representations make the middle visible
+
+Notes:
+Use this as the immediate bridge to the definition. The issue is not that natural language is useless; it is that direct mapping from intention to result hides the commitments that matter.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:6]{index=6}
+
+---
+
+## Intermediate representations: definition
+
+- An **intermediate representation** is an explicit, inspectable artefact
+
+- It mediates between:
+  - natural-language intention
+  - system-internal processing
+  - final result or external action
+
+- It is not necessarily fully formal
+  - but it must be explicit enough to inspect, revise, check, and reuse
+
+- It turns generation into a staged process
+  - intention → representation → verification → execution
+
+- Core claim:
+  - intermediate representations are the governance substrate of agentic AI
+
+Notes:
+Define the term broadly. The keynote does not require all representations to be first-order logic or PDDL. The key condition is inspectability and operational relevance.
+
+Citations:
+SKILLED-LLMs context pack on intermediate representations as governance substrate :contentReference[oaicite:7]{index=7}
+
+---
+
+## Intermediate representations: examples
+
+- **Checklists**
+  - goals, requirements, acceptance criteria, tests
+
+- **Plans or skills**
+  - reusable action sequences with preconditions and repair points
+
+- **Process models**
+  - organisational workflows, approvals, responsibilities, deadlines
+
+- **Norms**
+  - what is required, permitted, forbidden, or exceptional
+
+- **Tool contracts and schemas**
+  - what actions exist, what data is known, what effects are expected
+
+Notes:
+Keep this slide as the first taxonomy. These representations are ordinary engineering artefacts, but the thesis is that they become central scientific and governance objects for LLM agents.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:8]{index=8}
+A&A meta-model on tools and artefacts as environment abstractions :contentReference[oaicite:9]{index=9}
+
+---
+
+## More specialised intermediate representations
+
+- **Ontologies**
+  - for data-intensive tasks and semantic integration
+
+- **UML diagrams**
+  - for software structure, components, interfaces, and interactions
+
+- **BPMN diagrams**
+  - for organisational process modelling
+
+- **Petri nets or process algebras**
+  - for workflow analysis, concurrency, reachability, and deadlock checks
+
+- **Formal specifications and PDDL**
+  - for verification and planning tasks
+
+Notes:
+This slide expands the taxonomy without making it exhaustive. The choice of representation depends on the generation target and the kind of governance needed: semantic consistency, process compliance, testability, or plan validity.
+
+Citations:
+Planning for Intelligent Agents on planning representations :contentReference[oaicite:10]{index=10}
+SKILLED-LLMs context pack :contentReference[oaicite:11]{index=11}
+
+---
+
+## Running example: generated reimbursement system
+
+- Target:
+  - generate a software system for travel reimbursement
+
+- Inputs:
+  - travel policy PDFs
+  - expense forms
+  - approval procedures
+  - ERP API documentation
+  - examples of previous claims
+
+- Desired outputs:
+  - requirements checklist
+  - process model
+  - data schema
+  - tool contracts
+  - tests
+  - code
+  - audit trace model
+
+- Goal:
+  - not only generate working software
+  - generate software whose behaviour can be inspected and governed
+
+Notes:
+Introduce this as the running example for the missing-middle section. The point is that a complex software system cannot safely be generated as one long answer. It needs staged representations.
+
+Citations:
+SKILLED-LLMs context pack on organisational processes and governable execution :contentReference[oaicite:12]{index=12}
+
+---
+
+## Step 1: functionality list
+
+- Natural-language target:
+  - “build a reimbursement system”
+
+- Functionality list:
+  - upload receipts
+  - extract expense fields
+  - classify expense category
+  - check policy compliance
+  - request missing evidence
+  - route approval
+  - submit claim to ERP
+
+- Why it matters:
+  - exposes system scope
+  - separates required capabilities from implementation choices
+
+- Example risk without it:
+  - the generated system may classify receipts but never handle approval
+
+Notes:
+The functionality list is the first weak but useful representation. It is not formal, but it already prevents some omissions and scope ambiguities.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:13]{index=13}
+
+---
+
+## Step 2: requirements checklist
+
+- Requirements checklist:
+  - every claim has an employee ID
+  - every reimbursable expense has evidence
+  - policy version is recorded
+  - approval precedes submission
+  - all submissions produce an audit event
+
+- Acceptance criteria:
+  - missing receipt blocks submission
+  - obsolete policy triggers review
+  - rejected claims include explanation
+
+- Why it matters:
+  - converts expectations into checkable items
+
+- Example risk without it:
+  - code passes happy-path tests but violates approval policy
+
+Notes:
+This is a crucial intermediate representation because it converts vague goals into testable commitments. It is also a bridge to unit tests and compliance checks.
+
+Citations:
+SKILLED-LLMs context pack on verification and auditability :contentReference[oaicite:14]{index=14}
+
+---
+
+## Step 3: data schema
+
+- Data schema defines what the system knows
+
+- Example entities:
+  - employee
+  - claim
+  - expense
+  - receipt
+  - policy
+  - approval
+  - audit event
+
+- Example fields:
+  - `expense.amount`
+  - `expense.currency`
+  - `receipt.provenance`
+  - `policy.version`
+  - `approval.status`
+
+- Why it matters:
+  - prevents free-text memory from mixing facts, assumptions, and private notes
+
+- Example risk without it:
+  - “approved” may mean user approval, manager approval, or system validation
+
+Notes:
+Use this slide to connect memory governance and software generation. A schema is not just a database design. It is a commitment about what distinctions matter.
+
+Citations:
+SKILLED-LLMs context pack on memory states and accountability traces :contentReference[oaicite:15]{index=15}
+
+---
+
+## Step 4: process model
+
+- Process model defines the organisational workflow
+
+- Example flow:
+  - upload receipt
+  - extract fields
+  - validate evidence
+  - check policy
+  - request approval
+  - submit to ERP
+  - archive trace
+
+- It should encode:
+  - roles
+  - orderings
+  - gateways
+  - exceptions
+  - escalation paths
+
+- Why it matters:
+  - process correctness can be checked before implementation
+
+- Example risk without it:
+  - the system submits claims before manager approval
+
+Notes:
+Process models are a prime example of intermediate representation. They are understandable by humans, executable or translatable by machines, and checkable by verification tools.
+
+Citations:
+SKILLED-LLMs context pack on process models and verification :contentReference[oaicite:16]{index=16}
+
+---
+
+## Step 5: UML and interfaces
+
+- UML-like diagrams can represent software structure
+
+- Useful views:
+  - class diagram for domain objects
+  - sequence diagram for tool interactions
+  - component diagram for services and APIs
+  - state machine for claim lifecycle
+
+- Example state machine:
+  - draft → evidence-complete → policy-checked → approved → submitted → archived
+
+- Why it matters:
+  - implementation can be compared against design
+
+- Example risk without it:
+  - code embeds workflow state implicitly across unrelated functions
+
+Notes:
+This slide shows how intermediate representations become software-engineering artefacts. They also support human review before code generation.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:17]{index=17}
+
+---
+
+## Step 6: tests before code
+
+- Tests are executable requirements
+
+- Unit tests:
+  - classify expense categories
+  - validate receipt fields
+  - compute thresholds
+
+- Integration tests:
+  - policy checker + approval service + ERP submission
+
+- Compliance tests:
+  - reject missing receipt
+  - reject obsolete policy
+  - block submission without approval
+
+- Why it matters:
+  - generation can iterate until tests pass
+
+Notes:
+Tests are one of the most practical intermediate representations for generated software. They are readable by developers and executable by machines.
+
+Citations:
+SWE-bench as evidence that realistic software repair requires tests and environment interaction
+SKILLED-LLMs context pack :contentReference[oaicite:18]{index=18}
+
+---
+
+## Step 7: generated code
+
+- Code should be generated after intermediate commitments exist
+
+- The generator should receive:
+  - requirements checklist
+  - data schema
+  - process model
+  - tool contracts
+  - tests
+  - security and compliance constraints
+
+- Generation loop:
+  - generate code
+  - run tests
+  - inspect failures
+  - revise code or representation
+  - repeat
+
+- Done means:
+  - not “the code looks plausible”
+  - but “the code satisfies agreed checks”
+
+Notes:
+This slide makes the development pipeline concrete. The main contrast is prompt-to-code vs representation-to-code-with-feedback.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:19]{index=19}
+
+---
+
+## Intermediate representations enable iteration
+
+- Requirements may reveal missing policy concepts
+
+- Process models may reveal unreachable states
+
+- Tool contracts may reveal missing permissions
+
+- Tests may reveal underspecified edge cases
+
+- Logs may reveal runtime deviations
+
+- Therefore:
+  - generation should iterate over representations, not only over final code
+
+Notes:
+This slide is important: intermediate representations are not a waterfall bureaucracy. They are the objects over which the AI-human-tool loop iterates.
+
+Citations:
+SKILLED-LLMs context pack on debugging, verification, and auditability :contentReference[oaicite:20]{index=20}
+
+---
+
+## Why these are not implementation details
+
+- They determine what the agent can know
+  - schemas, memories, ontologies
+
+- They determine what the agent can do
+  - tools, plans, process models
+
+- They determine what the agent may do
+  - norms, roles, permissions
+
+- They determine what can be checked
+  - tests, specifications, verification targets
+
+- They determine what can be reconstructed
+  - traces, logs, provenance records
+
+Notes:
+This is the core governance claim in slide form. Implementation details are hidden conveniences. Intermediate representations are the public substrate of control.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:21]{index=21}
+
+---
+
+## Norms and tool contracts
+
+- Norms represent what must, may, and must not happen
+
+- They depend on:
+  - role
+  - context
+  - jurisdiction
+  - institutional state
+  - risk level
+  - prior authorisation
+
+- Tool contracts represent what actions are available
+
+- They specify:
+  - inputs
+  - outputs
+  - side effects
+  - preconditions
+  - failure modes
+  - permissions
+
+- Example:
+  - `submit_claim` may be available but forbidden before manager approval
+
+Notes:
+Start norms and tool contracts together because they jointly govern action. A tool tells the agent what can be done technically; norms tell it what may be done institutionally.
+
+Citations:
+A&A meta-model on artefacts and services :contentReference[oaicite:22]{index=22}
+Ricci and Ciortea on tool interfaces and action possibilities :contentReference[oaicite:23]{index=23}
+SKILLED-LLMs context pack :contentReference[oaicite:24]{index=24}
+
+---
+
+## Norm representation: example
+
+- Natural-language norm:
+  - “claims above 500€ require manager approval before submission”
+
+- Structured norm:
+  - condition: `claim.total > 500`
+  - role: `manager`
+  - obligation: `approval_required`
+  - deadline: `before submit_claim`
+  - violation: `submission_blocked`
+
+- Operational assertion:
+  - `submit_claim(C) -> approved_by(C, manager)`
+
+- Why it matters:
+  - the norm can be matched against a process model or trace
+
+- Example:
+  - if `submit_claim(C-481)` occurs before approval, the violation is detectable
+
+Notes:
+Use this slide to make norms concrete. Natural language is the source, but the actionable form is a representation that can be checked.
+
+Citations:
+SKILLED-LLMs context pack on norms and compliance :contentReference[oaicite:25]{index=25}
+
+---
+
+## Tool contract: example
+
+- Tool:
+  - `submit_claim`
+
+- Inputs:
+  - `claim_id`
+  - `employee_id`
+  - `evidence_ids`
+  - `approval_id`
+
+- Preconditions:
+  - evidence complete
+  - policy checked
+  - approval valid
+  - user confirmation present
+
+- Effects:
+  - claim submitted in ERP
+  - submission ID returned
+  - audit event created
+
+- Failure modes:
+  - missing evidence, invalid approval, ERP timeout, duplicate claim
+
+Notes:
+This slide shows that a tool contract is not just an OpenAPI signature. It should include semantics relevant to governance: preconditions, effects, and failures.
+
+Citations:
+Ricci and Ciortea on richer tool/artifact abstractions :contentReference[oaicite:26]{index=26}
+M11 Agents & Tools :contentReference[oaicite:27]{index=27}
+
+---
+
+## Ex-ante verification
+
+- Ex-ante verification checks a process before execution
+
+- It is possible when:
+  - norms are explicitly represented
+  - the process model is explicitly represented
+  - a verification tool can compare them
+
+- Verification question:
+  - can this process execute a forbidden action?
+  - can it miss an obligatory step?
+  - can it reach a compliant final state?
+
+- Example:
+  - verify that all paths to `submit_claim` pass through `approval_valid`
+
+- Result:
+  - detect compliance problems before deployment or execution
+
+Notes:
+Use “before execution” strongly. This is a major advantage of intermediate representations over prompt-only agents. You can check the process before the agent acts.
+
+Citations:
+SKILLED-LLMs context pack on verification and compliance :contentReference[oaicite:28]{index=28}
+
+---
+
+## Ex-ante verification: what can fail?
+
+- Norm ambiguity
+  - “large expense” has no threshold
+
+- Model mismatch
+  - process model uses `manager_review`; norm expects `manager_approval`
+
+- Missing exception
+  - emergency travel follows a different path
+
+- Inconsistent norms
+  - one policy permits what another forbids
+
+- Tool semantics missing
+  - `submit_claim` has side effects not represented in the process model
+
+Notes:
+This slide prevents overclaiming. Verification depends on representation quality. If norms or process models are wrong, verification will certify the wrong thing.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:29]{index=29}
+
+---
+
+## Ex-post validation and monitoring
+
+- Ex-post validation checks what actually happened
+
+- It is possible when:
+  - norms are represented as behavioural assertions
+  - traces are explicitly represented
+  - a monitoring tool checks traces against assertions
+
+- Monitoring question:
+  - did this execution violate a norm?
+  - did the actual trace deviate from the approved process?
+  - was a repair or escalation triggered?
+
+- Example:
+  - log shows `submit_claim` at 10:03 and `manager_approval` at 10:17
+  - monitor flags ordering violation
+
+- Result:
+  - violations become auditable and contestable
+
+Notes:
+Ex-post monitoring complements ex-ante verification. Some deviations only appear at runtime: tool failure, human override, emergency path, inconsistent data.
+
+Citations:
+SKILLED-LLMs context pack on traces, monitoring, and auditability :contentReference[oaicite:30]{index=30}
+
+---
+
+## Traces as intermediate representations
+
+- A trace is not just a log line
+
+- It should represent:
+  - event
+  - actor
+  - tool
+  - inputs
+  - outputs
+  - time
+  - authorisation basis
+  - linked evidence
+  - linked norm or process step
+
+- Example event:
+  - `submit_claim(C-481)` by `agent_A`
+  - based on `approval_17`, `policy_2026_v3`, `receipt_8`
+
+- Why it matters:
+  - trace data becomes evidence for audit and repair
+
+Notes:
+Make the trace rich enough to be checked. Ordinary application logs may be insufficient because they do not connect action to norms, evidence, or responsibilities.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:31]{index=31}
+
+---
+
+## LLM-as-judge as a weak checker
+
+- Sometimes norms can be converted into easy-to-check natural-language checklists
+
+- Example checklist:
+  - is there a receipt?
+  - is the date within the trip interval?
+  - is the amount below the threshold?
+  - is manager approval present?
+
+- An LLM-as-judge may check simple cases
+  - especially where evidence remains textual or semi-structured
+
+- But it should be treated as weak validation
+  - not as formal verification
+  - not as final authority for high-risk action
+
+- Better use:
+  - triage, explanation, anomaly spotting, pre-check before formal validation
+
+Notes:
+This slide is important because it is realistic. Not everything will be formalised. LLM judges can be useful, but their outputs should be represented as fallible judgements with provenance and confidence, not as ground truth.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:32]{index=32}
+
+---
+
+## From natural-language norms to checkable artefacts
+
+- Source:
+  - policy PDF, contract, regulation, procedure manual
+
+- Extraction:
+  - candidate obligations, permissions, prohibitions, exceptions
+
+- Representation:
+  - rules, checklists, assertions, constraints, process annotations
+
+- Validation:
+  - legal expert, domain expert, tests, examples, counterexamples
+
+- Deployment:
+  - process verification, runtime monitoring, LLM-as-judge triage
+
+Notes:
+This slide gives a practical pipeline. The LLM can help extract candidate norms, but the representation must be validated before it governs action.
+
+Citations:
+SKILLED-LLMs context pack on moving from natural-language norms to governed execution :contentReference[oaicite:33]{index=33}
+
+---
+
+## Intermediate representations: governance functions
+
+- **Inspect**
+  - see what the agent believes, plans, uses, and changes
+
+- **Debug**
+  - locate wrong evidence, wrong rule, wrong state, wrong action
+
+- **Verify**
+  - check constraints before execution
+
+- **Contest**
+  - challenge decision basis, evidence, category, norm, or authority
+
+- **Audit**
+  - reconstruct what happened and who or what authorised it
+
+Notes:
+This slide repeats the governance vocabulary from the abstract and opening. It should feel like the argumentative payoff of the section.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:34]{index=34}
+
+---
+
+## Section takeaway: the missing middle is the object of science
+
+- Prompt-centric view:
+  - language → model → result
+
+- Representation-centric view:
+  - language → intermediate artefacts → checks → action/result
+
+- The missing middle includes:
+  - goals, requirements, schemas, plans, skills, processes, norms, tool contracts, tests, traces
+
+- These artefacts improve capability
+  - better decomposition, reuse, verification, repair
+
+- They also govern capability
+  - bounded autonomy, accountability, contestability, auditability
+
+Notes:
+End this section by making the thesis explicit again. Intermediate representations are not paperwork around AI. They are the substrate through which LLM agency becomes scientifically analysable and institutionally governable.
+
+Citations:
+SKILLED-LLMs context pack :contentReference[oaicite:35]{index=35}
+
+
 [1]: https://arcprize.org/leaderboard "ARC Prize - Leaderboard"
 [2]: https://arxiv.org/abs/2601.10904?utm_source=chatgpt.com "ARC Prize 2025: Technical Report"
 [3]: https://arcprize.org/competitions/2026 "ARC Prize 2026"

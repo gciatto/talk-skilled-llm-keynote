@@ -370,50 +370,118 @@ Below, the citations are intended as **slide-level anchors**, not necessarily al
 
 ## **6. The missing middle: intermediate representations**
 
+* **Slide 25 pre – What do people exploit AI for? **
+  * many purposes, there including:
+    1. data processing (either extracting information from data, or transforming data into other data)
+      - useful metaphor from CS: AI acts as a function, described in natural language, and applied to input data to produce output data
+        + e.g. extracting information from a text, or generating some content etc
+    2. acting on behalf of humans to automate tasks
+      - useful metaphor from CS: AI acts as a procedure, described in natural language, and applied to input data to produce some effect
+        + e.g. sending emails, scheduling meetings, booking flights, etc
+    3. generate software (that does some of the above)
+      - useful metaphor from CS: AI acts as a meta-programmer, instructed via natural language, by which automation-software is produced
+
+  * item 3 is particularly interesting because AI produces some software that implements some meaniningful human workflow,
+  possibly making it reproducible, inspectable, verifiable, editable, etc.
+
+  * the capability to produce software is also a capability that can be exploited by AI agents to dynamically increase their autonomy,
+  by literally crafting the software tools their need to pursue their goals
+
+  * to simultaneously improve and govern such capability of AI, we need explicit intermediate representations that mediate between fluent natural-language generation and governed action
+    * as opposed to text-in / result-out
+
 * **Slide 25 — Definition**
 
-  * An intermediate representation is an explicit, inspectable artefact that mediates between natural-language intention and external action
+  * An intermediate representation is an explicit, inspectable artefact that mediates between natural-language intention and final result
 
-    * Citations: SKILLED-LLMs context pack
-  * Intermediate representations include goals, plans, process models, norms, tool contracts, memory states, verification targets, runtime monitors, traces, and audit-ready explanations
+  * Intermediate representations include checklists (for goals, requirements, tests), plans or skills (for pre-cooked action sequences), process models (for organisational workflows), norms (for what is admissible/forbidden/required), tool contracts (for what is available), data-schemas (for what is known), and traces (for what has happened)
+    * further intermediate representations may be useful depending on the generation target, eg:
+      1. ontologies for data-intendive tasks
+      2. UML diagrams or unit tests for software-generation tasks
+      3. BPMN diagrams for process-modelling tasks
+      4. petri nets or process algebras for workflow-modelling tasks
+      5. mathematical models for constraint-solving tasks
+      6. formal specifications for verification tasks
+      7. PDDL-like representations for planning tasks
 
-    * Citations: SKILLED-LLMs context pack
   * They are not implementation details, but the substrate through which agency becomes governable
+    + invent a running example where the generation target is a complex software system which may benefit from most of the aforementioned intermediate representations
+      + e.g. functionality list -> checklist of requirements -> process model (reiterate until verification succeeds) -> UML diagrams -> unit tests -> generated code (reiterate until unit tests pass) -> done
+    + exemplify how all such kind of intermediate representation may look like in the running example
 
-    * Citations: SKILLED-LLMs context pack; governance of autonomous Web agents  ([arXiv][10])
-* **Slide 26 — Plans and process models**
-
-  * Plans make future commitments explicit, so they can be inspected, simulated, checked, repaired, and explained
-
-    * Citations: PlanBench; LLM-Modulo; SKILLED-LLMs context pack ([arXiv][12])
-  * Process models make organisational action explicit by representing roles, ordering constraints, exceptions, approvals, escalation paths, and completion conditions
-
-    * Citations: SKILLED-LLMs context pack
-  * The slide should contrast process models with prompt recipes: a process model is a checkable structure, not merely an instruction string
-
-    * Citations: SKILLED-LLMs context pack; LLM-Modulo  ([arXiv][11])
 * **Slide 27 — Norms and tool contracts**
 
   * Norms represent what must, may, and must not happen under specific roles, contexts, and institutional conditions
 
-    * Citations: governance of autonomous Web agents; EU AI Act summary; OECD AI Principles ([arXiv][10])
-  * Tool contracts represent what a tool can do, what it assumes, what it changes, what it costs, and who may authorise it
+  * ex-ante verification out of early process models and is possible if:
+    1. norms are explicitly represented (coherent, indexed, matchable representation)
+    2. process model is explicitly represented (coherent & consistent w.r.t. the norms)
+    3. there exists some verification tool to check the process against norm compliance
 
-    * Citations: Toolformer; WebArena; prompt-injection benchmarking ([arXiv][3])
-  * Norms and tool contracts together determine whether an available action is also an admissible action
+  * ex-post validation / monitoring is possible if:
+    1. norms are explicitly represented (converted into assertions about the behaviour of a system)
+    2. traces of what happened are explicitly represented (e.g. logs)
+    3. there exists some tool checking the traces w.r.t. assertions
 
-    * Citations: governance of autonomous Web agents; NIST AI RMF ([arXiv][10])
-* **Slide 28 — Memory, verification targets, and traces**
+  * tools can also simply be LLM-as-Judges, provided that norms are assertions are converted in easy-to-check natural language checklists
+    * Citations: governance of autonomous Web agents; NIST AI RMF; EU AI Act summary ([arXiv][10])
 
-  * Structured memory preserves relevant past state with provenance, salience, staleness, contradiction handling, access control, and forgetting
+## **6. The missing middle: intermediate representations**
 
-    * Citations: Memory survey; Reflexion; Generative Agents ([arXiv][7])
-  * Verification targets specify properties that should hold before, during, or after execution
+* **Slide 25 pre – What do people exploit AI for? **
+  * many purposes, there including:
+    1. data processing (either extracting information from data, or transforming data into other data)
+      - useful metaphor from CS: AI acts as a function, described in natural language, and applied to input data to produce output data
+        + e.g. extracting information from a text, or generating some content etc
+    2. acting on behalf of humans to automate tasks
+      - useful metaphor from CS: AI acts as a procedure, described in natural language, and applied to input data to produce some effect
+        + e.g. sending emails, scheduling meetings, booking flights, etc
+    3. generate software (that does some of the above)
+      - useful metaphor from CS: AI acts as a meta-programmer, instructed via natural language, by which automation-software is produced
 
-    * Citations: LLM-Modulo; NIST AI RMF; SKILLED-LLMs context pack ([arXiv][11])
-  * Traces connect actions to goals, plans, norms, tools, evidence, memory, and human approvals
+  * item 3 is particularly interesting because AI produces some software that implements some meaniningful human workflow,
+  possibly making it reproducible, inspectable, verifiable, editable, etc.
 
-    * Citations: SKILLED-LLMs context pack; NIST AI RMF; Floridi on accountability  ([NIST][18])
+  * the capability to produce software is also a capability that can be exploited by AI agents to dynamically increase their autonomy,
+  by literally crafting the software tools their need to pursue their goals
+
+  * to simultaneously improve and govern such capability of AI, we need explicit intermediate representations that mediate between fluent natural-language generation and governed action
+    * as opposed to text-in / result-out
+
+* **Slide 25 — Definition**
+
+  * An intermediate representation is an explicit, inspectable artefact that mediates between natural-language intention and final result
+
+  * Intermediate representations include checklists (for goals, requirements, tests), plans or skills (for pre-cooked action sequences), process models (for organisational workflows), norms (for what is admissible/forbidden/required), tool contracts (for what is available), data-schemas (for what is known), and traces (for what has happened)
+    * further intermediate representations may be useful depending on the generation target, eg:
+      1. ontologies for data-intendive tasks
+      2. UML diagrams or unit tests for software-generation tasks
+      3. BPMN diagrams for process-modelling tasks
+      4. petri nets or process algebras for workflow-modelling tasks
+      5. mathematical models for constraint-solving tasks
+      6. formal specifications for verification tasks
+      7. PDDL-like representations for planning tasks
+
+  * They are not implementation details, but the substrate through which agency becomes governable
+    + invent a running example where the generation target is a complex software system which may benefit from most of the aforementioned intermediate representations
+      + e.g. functionality list -> checklist of requirements -> process model (reiterate until verification succeeds) -> UML diagrams -> unit tests -> generated code (reiterate until unit tests pass) -> done
+    + exemplify how all such kind of intermediate representation may look like in the running example
+
+* **Slide 27 — Norms and tool contracts**
+
+  * Norms represent what must, may, and must not happen under specific roles, contexts, and institutional conditions
+
+  * ex-ante verification out of early process models and is possible if:
+    1. norms are explicitly represented (coherent, indexed, matchable representation)
+    2. process model is explicitly represented (coherent & consistent w.r.t. the norms)
+    3. there exists some verification tool to check the process against norm compliance
+
+  * ex-post validation / monitoring is possible if:
+    1. norms are explicitly represented (converted into assertions about the behaviour of a system)
+    2. traces of what happened are explicitly represented (e.g. logs)
+    3. there exists some tool checking the traces w.r.t. assertions
+
+  * tools can also simply be LLM-as-Judges, provided that norms are assertions are converted in easy-to-check natural language checklists
 
 ## **7. Why representations matter**
 
